@@ -1,0 +1,32 @@
+% Описание документа и подключение пакетов.
+% a4paper - А4 лист - формат бумаги.
+% 14pt - базовый размер шрифта. 
+% Шаблон extreport. (article).
+\documentclass[a4paper,14pt]{extreport}
+\usepackage{cmap} % Поиск в pdf-файле.
+\usepackage[T2A]{fontenc} % Поддержка русских букв.
+\usepackage[utf8]{inputenc} % Кодировка utf8.
+\usepackage[english,russian]{babel} % Локализация.
+%\usepackage{pscyr} % Нормальные шрифты
+\usepackage{hyperref} % Для того, чтобы можно было по ссылке кликать.
+
+\usepackage{graphicx}
+\graphicspath{{./img/}}
+
+\usepackage{hyperref}
+
+\usepackage{fancyhdr}
+\addto\captionsrussian{\renewcommand{\chaptername}{}}
+
+\begin{document}
+
+% Оглавление.
+\tableofcontents{}
+% Перенос на новую страницу.
+\clearpage
+
+\include{01}
+
+
+
+\end{document}
