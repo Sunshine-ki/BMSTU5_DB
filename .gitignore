@@ -4,3 +4,6 @@
 *.toc
 *.out
 *.gz
+*.dvi
+*.fdb_latexmk
+*.fls
