@@ -1,0 +1,169 @@
+Acrcade 
+Action 
+Action-adventure 
+Action-RPG 
+Adventure 
+Arcade 
+Arcade racer 
+Arcade sport 
+Art game 
+Artillery game 
+Artipicial Life game 
+Battle Racing 
+Board game 
+Browser RPG 
+Browser-based 
+Building 
+Bullet Hell 
+Business 
+Cardgame 
+Casual game 
+Choices
+City-building 
+Classic Quest 
+Clicker 
+Combat 
+Competitive 
+Computer Role-Playing Game 
+Construction 
+Contact 
+Co-op 
+Crawler 
+CRPG 
+Dance 
+Dangeon Crawler 
+Danmaku 
+Dating Sim 
+Death Racing 
+DeathMatch 
+Driving 
+Dungeon crawl 
+Economical 
+Education 
+Electronic sports 
+Eroge 
+Espionage 
+Extreme sport 
+Family 
+Fantasy 
+Fighting 
+First-Person 
+Fishing 
+Flight simulation 
+FPS 
+Free to play 
+Gamble 
+Global Strategy 
+Global Wargame 
+God sim 
+Grand strategy wargame 
+Hack & Slash 
+Hentai 
+Hero 
+Hidden object 
+Horror 
+Hunting 
+Indie game 
+Intellectual game 
+Interactive fiction 
+Interactive Movie 
+JRPG 
+Life Sim 
+Light gun 
+Logic 
+Management simulation 
+Manager 
+Mass action 
+Massive multiplayer online game 
+Massively multiplayer 
+Match 3 
+Maze 
+Medetative 
+Metroidvania 
+MicroControl 
+Microgame 
+Mini games 
+MMOFPS 
+MMORPG 
+MMORTS 
+MOBA 
+Movie-based game 
+Multi User Dungeon 
+Multiplayer online battle arena 
+Music game 
+Non-linear 
+Novel 
+OldSchool Action 
+Open Action 
+Open RPG 
+Open world 
+Open-ended simulation 
+Party game 
+Pinball 
+Platformer 2D 
+Platformer 3D 
+Point & click adventure 
+Programming game 
+Puzzle 
+Quest 
+Racing 
+Rail shooter 
+Real-time 2D adventure 
+Real-time strategy 
+Real-time tactic 
+Rhythm game 
+Roguelike 
+Role-playing 
+RPG 
+RTS 
+RTT 
+Run and gun 
+Runner 
+Sandbox 
+Self improvment games 
+Shoot'em up 
+Shooter 
+Side-scroling shooter 
+Side-scroller 
+Sim Strategy 
+Simulation racer 
+Simulation sport 
+Simulator 
+Singlplayer 
+Slasher 
+Social simulation game 
+Space sim 
+Sport 
+Sports-based fighting 
+Spy 
+Statistical sport 
+Stealth-Action 
+Strategy 
+Strategy RPG 
+Survival 
+Survival horror 
+Tactic 
+Tactic PRG 
+TBS 
+TD 
+Technical Combat 
+Test 
+Text adventure 
+Third-person action 
+Third-person shooter 
+Top Down Shooter 
+Toure 
+Tower Defense 
+Train simulation 
+Trivia game 
+True RPG 
+Turn-based strategy 
+Turn-based tactic 
+Tycoon 
+Vehicle simulation 
+Vehicular combat 
+Virtual pet 
+Visual novel 
+Wargame 
+Zen 
+Zero Player Game 

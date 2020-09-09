@@ -1,0 +1,337 @@
+Acrcade — см. аркада
+
+Action — см. экшн
+
+Action-adventure — см. приключение
+
+Action-RPG — см. экшн-РПГ
+
+Adventure — см. приключение
+
+Arcade — см. аркада
+
+Arcade racer — см. гонки
+
+Arcade sport — см. спорт
+
+Art game — (игра-искусство) см. изучение
+
+Artillery game — поджанр шутеров
+
+Artipicial Life game — см. сим (забота)
+
+Battle Racing — см. гонки + уничтожение
+
+Board game — (настольная игра) см. логическая игра
+
+Browser RPG — см. браузерная РПГ
+
+Browser-based — это не жанр, а тип платформы игры
+
+Building — см. строительство
+
+Bullet Hell — (ад из пуль) поджанр шутер + уклонение
+
+Business — см. экономическая стратегия
+
+Cardgame — см. краточная игра
+
+Casual game — (казуальная) не является жанром, это разделение по цели игры
+
+Choices (выборы) см. общение
+
+City-building — см. строительство
+
+Classic Quest — см. квест
+
+Clicker — см. геройская игра
+
+Combat — см. файтинг
+
+Competitive — см. соревнование
+
+Computer Role-Playing Game — см. ролевая игра
+
+Construction — см. строительство
+
+Contact — см. общение
+
+Co-op — не является жанром, это количество игроков
+
+Crawler — (краулер, Dangeon Crawler) рогалик, поджанр ролевой игры
+
+CRPG — (Computer Role-Playing Game) см. ролевая игра
+
+Dance — (Dancing, танцы) поджанр аркады
+
+Dangeon Crawler — (краулер) рогалик, поджанр ролевой игры
+
+Danmaku — (огневая завеса, bullet hell) японское название поджанра 2D шутер + уклонение
+
+Dating Sim — см. сим (забота)
+
+Death Racing — см. гонки + уничтожение
+
+DeathMatch — см. шутер + соревнование
+
+Driving — см. гонки
+
+Dungeon crawl — (краулер) рогалик, поджанр ролевой игры
+
+Economical — см. экономическая стратегия
+
+Education — см. обучение
+
+Electronic sports — см. спорт
+
+Eroge — см. общение
+
+Espionage — см. стелс
+
+Extreme sport — см. спорт
+
+Family — (семейная игра) не является жанром
+
+Fantasy — (фэнтези) не является жанром, это сеттинг
+
+Fighting — см. файтинг
+
+First-Person — (вид от первого лица) не жанр, а вид, но чаще под этим понимают жанр экшн
+
+Fishing — см. аркада (собирательство)
+
+Flight simulation — см. симулятор
+
+FPS — (first-Person shooter) см. шутер
+
+Free to play — (бесплатная игра) не является жанром, это издательский формат
+
+Gamble — азартная игра на деньги, поджанр аркады
+
+Global Strategy — см. глобальная стратегия
+
+Global Wargame — см. глобальный варгейм
+
+God sim — (GodSim) см. стратегия непрямого контроля
+
+Grand strategy wargame — см. глобальный варгейм
+
+Hack & Slash — (Hack and Slash) см. слешер
+
+Hentai — (Eroge за рамками цензуры) см. общение
+
+Hero — см. геройская игра
+
+Hidden object — поджанр аркада + квест
+
+Horror — см. хоррор
+
+Hunting — см. шутер
+
+Indie game — (инди игра) не является жанром, это издательский формат
+
+Intellectual game — см. логическая игра
+
+Interactive fiction — см. общение
+
+Interactive Movie — см. общение
+
+JRPG — (japan role-playing game) см. РПГ + тактика
+
+Life Sim — (Life simulation) см. сим (забота)
+
+Light gun — не является жанром, означает применение гаджета светового пистолета
+
+Logic — см. логическая игра
+
+Management simulation — см. экономическая стратегия
+
+Manager — см. экономическая стратегия
+
+Mass action — см. стратегия-экшн
+
+Massive multiplayer online game — см. ММОРПГ
+
+Massively multiplayer — не является жанром, это количество игроков
+
+Match 3 — поджанр аркады
+
+Maze — поджанр аркады
+
+Medetative — см. изучение
+
+Metroidvania — см. платформер + приключение
+
+MicroControl — см. контроль
+
+Microgame — (крошечная игра) не является жанром, это издательский формат
+
+Mini games — (мини игра) не является жанром, это издательский формат
+
+MMOFPS — (massive multiplayer online first person shooter) см. экшн + соревнование
+
+MMORPG — (massive multiplayer online role-playing game) см. ММОРПГ
+
+MMORTS — (massive multiplayer real time strategy) см. стратегия-экшн
+
+MOBA — (multiplayer online battle arena) см. ролевая игра + соревнование
+
+Movie-based game — см. общение
+
+Multi User Dungeon — (MUD) см. онлайн квест
+
+Multiplayer online battle arena — (MOBA) см. ролевая игра + соревнование
+
+Music game — поджанр аркады
+
+Non-linear — (нелинейность) не является жанром
+
+Novel — см. общение
+
+OldSchool Action — см. шутер
+
+Open Action — см. экшн с открытым миром
+
+Open RPG — см. ролевая игра с открытым миром
+
+Open world — не жанр, а особенность игры, элемент механики, см. открытый мир
+
+Open-ended simulation — см. открытый мир
+
+Party game — (игра для компаний, вечеринок) не является жанром
+
+Pinball — поджанр аркады
+
+Platformer 2D — см. платформер
+
+Platformer 3D — см. платформер
+
+Point & click adventure — см. квест
+
+Programming game — см. логическая игра
+
+Puzzle — см. пазл
+
+Quest — см. квест
+
+Racing — см. гонки
+
+Rail shooter — (рельсовый шутер) см. шутер
+
+Real-time 2D adventure — см. платформер + приключение
+
+Real-time strategy — (RTS) см. стратегия-экшн
+
+Real-time tactic — (RTT) см. тактика + контроль
+
+Rhythm game — (ритмичная игра) поджанр аркады
+
+Roguelike — (рогалик) поджанр ролевой игры
+
+Role-playing — (RPG) см. ролевая игра
+
+RPG — (role-playing game) см. ролевая игра
+
+RTS — (real time strategy) см стратегия-экшн
+
+RTT — (real time tactic) см тактика + контроль
+
+Run and gun — см. экшн
+
+Runner — поджанр аркада + уклонение
+
+Sandbox — (песочница) см. строительство
+
+Self improvment games — (игры для самосовершенствования) не является жанром, это разделение по цели игры
+
+Shoot'em up — (Shmup, шмап) см. 2D шутер
+
+Shooter — см. шутер
+
+Side-scroling shooter — см. 2D шутер
+
+Side-scroller — см. 2D экшн
+
+Sim Strategy — см. стратегия непрямого контроля
+
+Simulation racer — см. гонки
+
+Simulation sport — см. спорт
+
+Simulator — см. симулятор
+
+Singlplayer — не является жанром, это количество игроков
+
+Slasher — см. слешер
+
+Social simulation game — см. сим (забота)
+
+Space sim — см. симулятор
+
+Sport — см. спорт
+
+Sports-based fighting — см. файтинг
+
+Spy — (шпионская игра) см. стелс
+
+Statistical sport — см. экономическая стратегия
+
+Stealth-Action — см. стелс
+
+Strategy — см. стратегия
+
+Strategy RPG — см. стратегия + РПГ
+
+Survival — (выживание) см. хоррор + изучение
+
+Survival horror — (выживание) см. хоррор + изучение
+
+Tactic — см. тактика
+
+Tactic PRG — (Tactical RPG) см. ролевая игра + тактика
+
+TBS — (turn based strategy) см. стратегия
+
+TD — (tower defense, TDS, tower defense strategy) см. защитные башни
+
+Technical Combat — (сражение на машинах) см. гонки + уничтожение
+
+Test — см. вопросы
+
+Text adventure — см. квест
+
+Third-person action — см. экшн
+
+Third-person shooter — см. шутер
+
+Top Down Shooter — см. 2D шутер
+
+Toure — см. изучение (открытый мир)
+
+Tower Defense — (TD) см. защитные башни
+
+Train simulation — см. симулятор
+
+Trivia game — (простейшая игра) не является жанром
+
+True RPG — (настоящая ролевая игра, управление группой героев) см. ролевая игра
+
+Turn-based strategy — (TBS) см. стратегия
+
+Turn-based tactic — см. тактика
+
+Tycoon — см. экономическая стратегия
+
+Vehicle simulation — (Vehicle Simulator game) см. симулятор (вождение)
+
+Vehicular combat — см. гонки + уничтожение
+
+Virtual pet — см. сим (забота)
+
+Visual novel — см. общение
+
+Wargame — см. варгейм
+
+Zen — (Дзен игра, медитативность, симулятор ходьбы) см. изучение
+
+Zero Player Game — (ZPG, игра без игрока) не является жанром

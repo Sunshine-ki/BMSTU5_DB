@@ -1,0 +1,46 @@
+Начало работы:
+service mysql start
+sudo mysql
+service mysql stop
+
+Отобразить статус:
+\s or status
+
+Помощь:
+\h or help
+
+Отобразить базы данных:
+SHOW databases;
+
+Создать БД:
+CREATE DATABASE name_base
+
+Использовать какую-то базу:
+use name_base
+
+Удалить базу:
+DROP DATABASE name_base
+
+Запустить SQL скрипт:
+SOURCE path
+
+Отобразить таблицы:
+SHOW TABLES;
+
+Создать таблицу:
+CREATE TABLE test(args...);
+
+Посмотреть описание таблицы:
+DESCRIBE name_table
+
+Загрузить таблицу:
+LOAD DATA LOCAL INFILE 'path'
+INTO TABLE name_table
+FIELDS TERMINATED BY ',';
+
+Отобразить всю таблицу:
+SELECT *
+FROM name_table;
+
+Очистить таблицу:
+TRUNCATE TABLE name_table
