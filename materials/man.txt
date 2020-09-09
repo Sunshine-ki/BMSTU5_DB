@@ -44,3 +44,9 @@ FROM name_table;
 
 Очистить таблицу:
 TRUNCATE TABLE name_table
+
+Вставить в таблицу:
+INSERT INTO name_table VALUES(arg...)
+
+Выборка с условием:
+SELECT * FROM name_table WHERE field=values;
