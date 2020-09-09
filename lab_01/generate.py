@@ -3,6 +3,7 @@ from random import randint, choice
 
 MAX = 1000
 
+
 def GenerateWorld():
     result = open("world.csv", "w")
 
@@ -49,16 +50,15 @@ def GenerateDevice():
 
     result.close()
 
-def GenerateDeviceUser():
+
+def GenerateWorldUser():
     result = open("device_user.csv", "w")
     for _ in range(MAX):
-        result.write("{0},{1}\n".format(randint(0, 999),randint(0, 999)))
+        result.write("{0},{1}\n".format(randint(0, 999), randint(0, 999)))
     result.close()
-
 
 
 if __name__ == "__main__":
     # GenerateWorld()
     # GenerateUser()
     # GenerateDevice()
-    GenerateDeviceUser()

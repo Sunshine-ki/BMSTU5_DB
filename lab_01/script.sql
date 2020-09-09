@@ -48,17 +48,17 @@ INFILE '/home/lis/university/github/database/lab_01/user.csv'
 INTO TABLE user
 FIELDS TERMINATED BY ',';
 
-CREATE TABLE IF NOT EXISTS device_user
+CREATE TABLE IF NOT EXISTS world_user
 (
-	id_device INT,
-	FOREIGN KEY (id_device) REFERENCES device(id),
+	id_world INT,
+	FOREIGN KEY (id_world) REFERENCES world(id),
 	id_user INT,
 	FOREIGN KEY (id_user) REFERENCES user(id)
 );
 
 LOAD DATA LOCAL
-INFILE '/home/lis/university/github/database/lab_01/device_user.csv'
-INTO TABLE device_user
+INFILE '/home/lis/university/github/database/lab_01/world_user.csv'
+INTO TABLE world_user
 FIELDS TERMINATED BY ',';
 
 -- INSERT INTO world(id, name) VALUES(1001, 'Name');
