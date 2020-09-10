@@ -58,7 +58,18 @@ def GenerateWorldUser():
     result.close()
 
 
+def GenerateDeviceHistory():
+    result = open("device_history.csv", "w")
+    for _ in range(MAX):
+        # year_begin INT CHECK(data_begin >= 2000 and data_begin <= 2120),
+        result.write("{0},{1},{2},{3}\n".format(
+            randint(0, 999), randint(0, 999),
+            randint(2000, 2119),  randint(2000, 2119)))
+    result.close()
+
+
 if __name__ == "__main__":
     # GenerateWorld()
     # GenerateUser()
     # GenerateDevice()
+    GenerateDeviceHistory()

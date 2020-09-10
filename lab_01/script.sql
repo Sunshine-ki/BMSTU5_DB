@@ -61,6 +61,23 @@ INFILE '/home/lis/university/github/database/lab_01/world_user.csv'
 INTO TABLE world_user
 FIELDS TERMINATED BY ',';
 
+
+CREATE TABLE IF NOT EXISTS device_history 
+(
+	-- id INT NOT NULL PRIMARY KEY,
+	id_user INT,
+	FOREIGN KEY (id_user) REFERENCES user(id),
+	id_device INT,
+	FOREIGN KEY (id_device) REFERENCES device(id),
+	year_begin INT CHECK(data_begin >= 2000 and data_begin <= 2120),
+	year_end INT CHECK(data_end >= 2000 and data_end <= 2120)
+);
+
+LOAD DATA LOCAL
+INFILE '/home/lis/university/github/database/lab_01/device_history.csv'
+INTO TABLE device_history
+FIELDS TERMINATED BY ',';
+
 -- INSERT INTO world(id, name) VALUES(1001, 'Name');
 -- INSERT INTO user VALUES(1001,'Alice',20,'f',0,123);
 -- SELECT * FROM user WHERE sex='f' and age >= 15 and age <= 30;
