@@ -1,0 +1,19 @@
+Начало работы: (Учетная запись postgres, созданная при установке)
+sudo -i -u postgres
+
+Выход:
+exit
+
+Создать БД:
+createdb name_bd
+
+
+Запускать контейнер с постгресом, если есть docker-compose.yml:
+sudo docker-compose up -d
+Остановить все контейнеры докера:
+sudo docker stop `sudo docker ps -aq`
+Удалить все использованные контейнеры (потому что могут занимать определенное кол-во памяти, лучше чистить периодически)
+sudo docker rm `sudo docker ps -aq`
+
+Подключение к postgres'у через psql:
+psql -h localhost

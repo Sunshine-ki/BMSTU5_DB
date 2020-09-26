@@ -3,6 +3,9 @@ service mysql start
 sudo mysql
 service mysql stop
 
+Очистить консоль:
+ctrl + L
+
 Отобразить статус:
 \s or status
 

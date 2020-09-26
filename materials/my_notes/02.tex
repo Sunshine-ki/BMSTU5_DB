@@ -1,5 +1,5 @@
 % Глава.	
-\chapter{Реляционная модель}
+\chapter{Реляционная модель (Лекция 2)}
 
 \section{ER - модель}
 
@@ -65,3 +65,429 @@
 \end{itemize}
 
 
+\chapter{Реляционная алгебра (Лекция 3)}
+
+Реляционная алгебра - замкнутая система.
+
+Реляционная алгебра является основным компонентом реляционной модели, опубликованной Коддом, и состоит из
+восьми операторов, составляющих две группы по четыре оператора:
+
+\begin{itemize}
+	\item Традиционные
+	      \begin{itemize}
+		      \item Объединение. (union)
+		      \item Пересечение. (intersect)
+		      \item Вычитание. (minus) (В mysql иначе называется)
+		      \item Декартово произведение - все со всеми.  (times)
+	      \end{itemize}
+	\item Специальные
+	      \begin{itemize}
+		      \item Проекция. (PROJECT, []) помогает выбирать не все из нашего отношения.
+		            Можно набрать только те атрибуты, которые будем использовать далее.
+		      \item Фильтрация. (WHERE)
+		      \item Соединения. (JOIN)
+		      \item Деление. (DIVIDE BY)
+	      \end{itemize}
+\end{itemize}
+
+% \begin{table}[ht]
+% 	\centering
+% 	\begin{tabular}{ | l | l |}
+% 		\hline
+% 		id & name   \\ \hline
+% 		1  & Иван   \\ \hline
+% 		2  & Петр   \\ \hline
+% 		3  & Степан \\ \hline
+% 		\hline
+% 	\end{tabular}
+% 	\caption{Таблица тестов}
+% 	\label{table:ref1}
+% \end{table}
+
+% \begin{lstlisting}[label=some-code,caption=Код подпрограммы sub\_1]
+% \end{lstlisting}
+
+\textbf{Деление. (DIVIDE BY)}
+
+R1 \{A, B\}
+
+R2 \{B\}
+
+R1 DIVIDE BY R2 = R1[A] minus(R2 YIMER R1[A]) minus R1)[A]
+
+\section{Синтаксис реляционной алгебры}
+
+Любое реляционное выражение - это унарное выражение или бинарное выражение
+
+\begin{itemize}
+	\item Унарное - выражение с одним элементом.
+	      \begin{itemize}
+		      \item Переименование := терм RENAME  имя\_атрибута AS новое\_имя\_атрибута
+		      \item Ограничение := терм WHERE логическое\_выражение
+		      \item Проекция := терм | терм[список атрибутов]
+	      \end{itemize}
+	\item Бинарное - с двумя элементами
+	      \begin{itemize}
+		      \item Бинарное выражение := проекция бинарная\_операция (реляционное\_выражение)
+		      \item Бинарный операция := UNION | INТERSECT | MINUS | TIМES | JOIN | DIVIDEBY
+	      \end{itemize}
+\end{itemize}
+
+Терм - либо отношение, либо другое реляционное выражение.
+Реляционное выражение всегда берется в круглые скобки.
+
+Имеются таблицы:
+\begin{itemize}
+	\item S - поставщик
+	      S(Sno: integer, Sname: string, Status: integer, City: string)
+	\item P - поставщик
+	      P(Pno: integer, Pname: string, Color: string, Weight: real, City: string)
+	\item SP - Таблица связка
+	      SP(Sno: integer, Pno: integer, Qty: integer)
+\end{itemize}
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{ | l | l | l | l |l |}
+		\hline
+		id & Имя детали & цвет & вес  & Город    \\ \hline
+		1  & Гвоздь     & К    & 10.3 & Москва   \\ \hline
+		2  & Винт       & З    & 15.8 & Рязань   \\ \hline
+		3  & Гвоздь     & С    & 3.4  & Смоленск \\ \hline
+		\hline
+	\end{tabular}
+	\caption{Детали}
+	\label{table:ref1}
+\end{table}
+
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{ | l | l | l | l |l |}
+		\hline
+		id & Имя поставщика & статус & город       \\ \hline
+		1  & ООО Ромашка    & 5      & Рязань      \\ \hline
+		2  & ООО Рубин      & 3      & Красногорск \\ \hline
+		\hline
+	\end{tabular}
+	\caption{Поставщики}
+	\label{table:ref1}
+\end{table}
+
+\section{Примеры}
+
+Реляционные алгебра. Выражения.
+
+1. Получить имена поставщиков, которые поставляют деталь под номером 2.
+
+\begin{lstlisting}[label=some-code,caption=Пример 1]
+	(( S JOIN SP ) WНEPE Рno = 2 ) [ Sname ]
+\end{lstlisting}
+
+\begin{lstlisting}[label=some-code,caption=Пример 1]
+	select Sname
+	from S
+	join SP on S.Sno = SP.Sno
+	where SD.Pno = 2
+\end{lstlisting}
+
+Пример 1.2 быстрее
+
+\begin{lstlisting}[label=some-code,caption=Пример 1.2]
+	((SP where Pno=2) join S) [Sname]
+\end{lstlisting}
+
+
+2. Получить имена поставщиков, которые поставляют по крайней мере одну красную деталь.
+
+\begin{lstlisting}[label=some-code,caption=Пример 2]
+	((( Р WНERE Color = 'Красный' ) JOIN SP) 
+	[ Sno ] JOIN S ) [ Sname ]
+\end{lstlisting}
+
+
+\begin{lstlisting}[label=some-code,caption=Пример 2]
+	select Sname
+	from S
+	join SP on S.Sno = SP.Sno
+	join P on P.Pno = SP.Pno
+	where color='К'
+\end{lstlisting}
+
+
+3. Получить имена поставщиков, которые поставляют все детали.
+
+\begin{lstlisting}[label=some-code,caption=Пример 3]
+	(( SP [ Sno, Рno] DIVIDE BY Р 
+	[ Рno ] JOIN S ) [ Sname ]
+\end{lstlisting}
+
+\begin{lstlisting}[label=some-code,caption=Пример 3]
+	with group SP(Sno, cnt) as (
+		select Sno, count(distinct Pno)
+		from SP
+		group by Sno
+	)
+	select Sname
+	from group SP (тут не обязательно as) gSP 
+	join S on gSP.Sno=S.Sno
+	where cnt=(select count(distinct Pno)
+	from P)	
+\end{lstlisting}
+
+4. Получить номера поставщиков, поставляющих по крайней мере все те детали, которые поставляет поставщик под
+номером 2.
+
+\begin{lstlisting}[label=some-code,caption=Пример 4]
+	SP [Sno, Рno] DIVIDE ВY 
+	(SP WНEPE Sno = 2)[ Рno ]
+\end{lstlisting}
+
+\begin{lstlisting}[label=some-code,caption=Пример 4]
+	with group SP(Sno, cnt) as (
+		select Sno, count(distinct Pno)
+		from SP
+		where Sno in ()
+		group by Sno in (select count(distinct Pno)
+		from SP
+		where Sno=2)
+	)
+	select Sname
+	from group SP (тут не обязательно as) gSP 
+	join S on gSP.Sno=S.Sno
+	where cnt=(select count(distinct Pno)
+	from SP
+	where Sno=2)	
+\end{lstlisting}
+
+5. Получить все пары номеров поставщиков, размещенных в одном городе
+
+\begin{lstlisting}[label=some-code,caption=Пример 5]
+	((( S RENAМE Sno AS FirstSno ) 
+	[ FirstSno, City ] JOIN
+	(S RENAМE Sno AS SecondSno ) 
+	[ SecondSno , City ])
+	WНEPE FirstSno < SecondSno )
+	[ FirstSno, SecondSno ]
+\end{lstlisting}
+
+\begin{lstlisting}[label=some-code,caption=Пример 5]
+	select firstS.Sno, SecondS.Sno
+	from S firstS inner join S secondS
+	on firstS.Sno = secondS.Sno
+	where firstS.Sno < SecondS.Sno 
+	(Эта фильтрация избавит от дублей)
+\end{lstlisting}
+
+
+6. Получить имена поставщиков, которые не поставляют деталь под номером 2.
+
+\begin{lstlisting}[label=some-code,caption=Пример 6]
+	((S[ Sno ] MINUS (SP WНEPE Рno = 2 )
+	 [ Sno ] ) JOIN S ) [Sname]
+\end{lstlisting}
+
+\begin{lstlisting}[label=some-code,caption=Пример 5]
+	select Snp from S
+	minus
+	select distinct Sno
+	from SR
+	where Pno=2
+\end{lstlisting}
+
+
+\chapter{Семинар 2}
+
+Таблица P.
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{ | l | l | l | l |l |}
+		\hline
+		id & Pname  & Color & Weight & City     \\ \hline
+		1  & Гвоздь & К     & 10.3   & Москва   \\ \hline
+		2  & Винт   & З     & 15.8   & Рязань   \\ \hline
+		3  & Гвоздь & С     & 3.4    & Смоленск \\ \hline
+		4  & шуруп  & К     & 11     & Рязань   \\ \hline
+		5  & шайба  & с     & 17.8   & Смоленск \\ \hline
+		\hline
+	\end{tabular}
+	\caption{Таблица деталей P.}
+\end{table}
+
+Таблица поставщика - S
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{ | l | l | l | l |l |}
+		\hline
+		Sno & Sname                  & Status & City     \\ \hline
+		1   & ООО Ромашка            & 5      & Москва   \\ \hline
+		2   & ООО Рубин              & 3      & Рязань   \\ \hline
+		2   & ООО Зеленоглазое такси & 4      & Смоленск \\ \hline
+		\hline
+	\end{tabular}
+	\caption{Таблица поставщика - S}
+	\label{table:ref1}
+\end{table}
+
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{ | l | l | l |}
+		\hline
+		Sno & Pno & Cnt \\ \hline
+		1   & 1   & 100 \\ \hline
+		2   & 1   & 150 \\ \hline
+		3   & 1   & 180 \\ \hline
+		1   & 2   & 180 \\ \hline
+		3   & 2   & 180 \\ \hline
+		4   & 3   & 180 \\ \hline
+		5   & 3   & 180 \\ \hline
+		\hline
+	\end{tabular}
+	\caption{Таблица SP}
+	\label{table:ref1}
+\end{table}
+
+
+\textit{Агрегатная функция} - sum, max, min, count,
+
+\begin{lstlisting}[label=some-code,caption=Пример]
+	select Color, count(*)
+	from p
+	group by Color
+\end{lstlisting}
+
+
+having используется для фильтрации групп.
+
+\begin{lstlisting}[label=some-code,caption=Пример]
+	select Color, count(*)
+	from p
+	group by Color
+	having count(*)>1
+\end{lstlisting}
+
+order by - сортировка. Есть прямой порядок () и обратный (desc).
+По умолчанию по возрастанию.
+
+Отсортируем таблицу деталей по весу.
+
+\begin{lstlisting}[label=some-code,caption=Пример]
+	select Color, count(*)
+	from p
+	order by Pname, Weight desc;
+\end{lstlisting}
+
+Порядок записи инструкций.
+Цифрами показан порядок выполнения.
+
+
+\begin{lstlisting}[label=some-code,caption=Порядок записи инструкций]
+select (5)
+from (1)
+where (2)
+group by (3)
+having (4)
+order by (6)
+\end{lstlisting}
+
+Нерабочий пример (потому что имя задаем на этапе позже)
+На этапе where использовать псевдонимы, которые мы создаем в select нельзя.
+
+(2) - выполнится вторым действием,но у нас еще нет псевдонима. (Пример 6.5)
+
+\begin{lstlisting}[label=some-code,caption=Пример]
+select Pname as myName
+from P (1)
+from where myName ='Гвоздь' (2)
+order by myName
+\end{lstlisting}
+
+\begin{lstlisting}[label=some-code,caption=Пример внутренних запросов]
+select Sname 
+from S
+where Sno in 
+(select distinct Sno
+from SP
+where Pno=2)
+\end{lstlisting}
+
+Запрос - найти цвет с max кол-вом деталей.
+Действия
+\begin{itemize}
+	\item Сначала группируем по цвету. grop by Color
+	\item Найти max.
+	\item Вернуться к табл. и найти
+\end{itemize}
+
+with - показывает, что след. запрос будет выполняться до select.
+Это только для запроса.
+
+\begin{lstlisting}[label=some-code,caption=with. найти цвет с max кол-вом деталей.Обобщенное табличное выражение]
+with group Color(Color, cnt) as
+select color count(*)
+from P
+group by Color(
+(select max(cnt)
+from (select Color,  count(*) as cnt
+from P
+grop by Color))
+)
+select Color 
+from group Color 
+where cnt in (
+select max(cnt)
+from group Color
+)
+\end{lstlisting}
+
+Теперь переходим на \textit{JOIN} - соединения
+
+Виды:
+\begin{itemize}
+	\item Внутренний. inner join (Это пересечение на кругах Эллера.);
+	\item Внешние. outer join. (3 вида)
+	      \begin{itemize}
+		      \item left join (На кругах это весь круг A)
+		      \item right join (На кругах это весь круг B)
+		      \item full join(полное) (На кругах это оба круга (и A и B))
+	      \end{itemize}
+\end{itemize}
+
+\begin{lstlisting}[label=some-code,caption=Внутреннее соединение]
+select A.id, B.id, A.name, B.fio
+from A join B
+on A.id = B.id
+\end{lstlisting}
+
+Виды join, которыми мы сможем воспользоваться
+\begin{itemize}
+	\item Nested loops join. (Сложность n*n).
+	      Можно нашей СУБД указать, что нужно использовать её.
+	      Минусы: избыточность.
+	\item Hash join (Сложность n+n). Можно сравнивать только на равенство.
+	      Минусы: доп расходы на таблицу.
+	\item Merge join (Изначально таблицы должны отсортированы по ключу.)
+	      Минусы: нужно сортировать
+\end{itemize}
+
+Операция над множествами. Тело - это множество кортежей.
+
+Ниже представленный запрос даст таблицу с двумя столбцами (id, name).
+Атрибуты называются по верхней схеме.
+
+\begin{lstlisting}[label=some-code,caption=union]
+select id, name, from A
+union [all]
+select id, FIO from B;
+\end{lstlisting}
+
+\begin{lstlisting}[label=some-code,caption=minus]
+select id, name, from A
+minus
+select id, FIO from B;
+\end{lstlisting}
+
+join - добавляет столбцы, union - дописывает в конец.
