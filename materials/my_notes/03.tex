@@ -1,0 +1,132 @@
+\chapter{Группировка (Лекция 4)}
+
+SP GROUP (Pno, Qny) as PQ
+
+\section{Реляционное сравнение}
+
+<рел. выр> <опер. сравн.> <рел выр.> опер. сравн. >= супермножество
+> - срьств. супермножество
+
+<расширение> - добаление новых атрибутов по горизонтали.
+
+<расширение> ::= EXTEND <реляц. выр.> ADD <список добавляемых расширений>
+
+представляет собой выражение, после которого следует ключевое слово AS (Проименованное выражение)
+
+<добавл расшир> ::= <выражение> AS <имя атрибута>
+
+Обобщение - горизонтально группирует записи.
+
+<Обобщение> :== SUMMARIZE <реляц выр> PER <рел выр> ADD <список добавляемых обобщений>
+
+	<добавл обобщение> :== <тип обобщения> [(скалярн выражение) AS <имя атрибута>]
+
+<тип обобщения> :== COUNT | MIN | MAX | ANG | SUM | ALL | ANY
+
+\section{Исчисление кортежей}
+
+<объявление кортежной переменной> :== RANGE OF <переменная> IS <список областей>
+
+<область> :== <отножение> | <рел выражение>
+
+<рел выр> :== (список целевых элементов) [WHERE wff]
+
+<целевой элемент> ::= переменная | переменная атрибут [AS <псевдоним>]
+
+правильно построенная  функция wff ::= условие | NOT wff | условие AND wff | if условие then wff |
+exists переменная (wff) | FORAll переменная (wff) | (wff)
+
+
+\chapter{Семинар 3}
+
+\section{Объекты БД}
+
+\begin{itemize}
+	\item table (+ temp)
+	\item view
+	\item constraints
+	      \begin{itemize}
+		      \item PK/FK
+		      \item default, not null, cheek
+	      \end{itemize}
+	\item function
+\end{itemize}
+
+Функции.
+
+\begin{enumerate}
+	\item По поведению:
+	      \begin{enumerate}
+		      \item детерминированные\\
+		            (Пример:\\
+		            select add date('day', '2020-10-03'))
+		      \item нет (Пример:\\
+		            getDate())
+	      \end{enumerate}
+	\item По возвращаемому значению
+	      \begin{enumerate}
+		      \item Скалярная функция (\textbf{Синтаксис}:\\
+		            create function [схема].имя (<параметры>)\\
+		            returns <ск.тип>\\
+		            $[with <$опции$>]$\\
+		            $[$as$]$\\
+		            begin\\
+		            <тело>\\
+		            return <ск. переменная>
+		            end $[$;$]$)\\
+		            (\textbf{Пример:}\\
+		            create functions dbo.AvgPrice()\\
+		            returns smallmoney\\
+		            with schemabinding\\
+		            as\\
+		            begin\\
+		            return (select avg(Cnt) from P)\\
+		            end;\\)
+		            (\textbf{Пример:}\\
+		            create function dbo.PriceDiff(@Pricesmallmoney)\\
+		            returns smallmoney\\
+		            as\\
+		            begin\\
+		            return @Price\_dbo AvgPrice()\\
+		            end)\\
+		            select Price.dbo.AfgPrice()\\
+		            dbo.PriceDiff(Price)\\
+		            from P
+		      \item Подставляемая функция.\\
+		            \textbf{Синтаксис:}
+		            create function $[$схема$]$.имя (<парам>)\\
+		            returns table\\
+		            $[$with <опции>$]$\\
+		            $[$as$]$\\
+		            return <sql-запрос>\\
+		            end $[$;$]$\\
+		            \textbf{Пример:}
+		            create function dbo.fullSpy()\\
+		            return table\\
+		            as\\
+		            return (select Sname, Pname\\
+		            from S join SP on S.Sno = SP.Pno\\
+		            join P on SP.Pno=P.Pno)\\
+		            where P.color=@color
+		      \item  Многооператорная функция.\\
+		            \textbf{Синтаксис:}
+		            create function $[$схема$]$.имя (<парам>)\\
+		            returns @возвр.перем. table <опред. таблицы>\\
+		            $[$with <опции>$]$\\
+		            $[$as$]$ declare\\
+		            begin\\
+		            <тело>\\
+		            return\\
+		            end$[$;$]$\\
+		            \textbf{Пример:}\\
+		            create function dbo.FnGetReport(@id as id)\\
+		            returns @Reports table (eid int, repid int)\\
+		            as\\
+		            begin\\
+		            declare @Empid as int\\
+		            select @Empid = 1\\
+		            select id from \dots\\
+		            into @Empid\\
+		            insert into @Reports(\dots) values(\dots)
+	      \end{enumerate}
+\end{enumerate}
