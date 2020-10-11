@@ -1,13 +1,6 @@
 Начало работы: (Учетная запись postgres, созданная при установке)
 sudo -i -u postgres
 
-Выход:
-exit
-
-Создать БД:
-createdb name_bd
-
-
 Запускать контейнер с постгресом, если есть docker-compose.yml:
 sudo docker-compose up -d
 Остановить все контейнеры докера:
@@ -17,3 +10,27 @@ sudo docker rm `sudo docker ps -aq`
 
 Подключение к postgres'у через psql:
 psql -h localhost
+
+Удаляем
+ps -A | grep  postgres
+killall postgres	
+
+_____________________________
+
+Выход:
+\q
+
+Создать БД:
+create database name_bd
+
+Посмотреть БД:
+\l
+
+Подключение к БД:
+\c name_db
+
+Посмотреть таблицы:
+\d
+
+Запустить скрипт
+\i path

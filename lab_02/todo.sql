@@ -1,0 +1,45 @@
+-- -- Вывести максимальное кол-во выпущенных миров в год
+-- -- Как вывести года в котрые выпускали максимальное кол-во миров?
+-- SELECT year_of_issue
+-- FROM
+--  (
+-- 	SELECT year_of_issue, COUNT(year_of_issue) as cnt
+-- 	FROM world
+-- 	GROUP BY year_of_issue
+-- 	ORDER BY cnt
+-- ) AS t1
+-- WHERE cnt = 
+-- (
+-- 	SELECT MAX(cnt) 
+-- 	FROM 
+-- 	(
+-- 		SELECT year_of_issue, COUNT(year_of_issue) as cnt
+-- 		FROM world
+-- 		GROUP BY year_of_issue
+-- 		ORDER BY cnt
+-- 	) 
+-- )
+-- SELECT year_of_issue
+-- FROM t1
+-- WHERE year_of_issue = 
+-- (
+-- SELECT MAX(cnt) 
+-- FROM t1
+-- );
+
+-- -- Концовочка недоделана.
+-- with t1(year_of_issue, cnt) as (
+-- 	SELECT year_of_issue, COUNT(year_of_issue) as cnt
+-- 	FROM world
+-- 	GROUP BY year_of_issue
+-- 	ORDER BY cnt
+-- ) 
+-- SELECT * 
+-- FROM t1;
+-- SELECT year_of_issue
+-- FROM t1
+-- WHERE year_of_issue = 
+-- (
+-- SELECT MAX(cnt) 
+-- FROM t1
+-- );

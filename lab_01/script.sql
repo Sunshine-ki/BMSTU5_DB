@@ -1,4 +1,4 @@
--- source /home/lis/university/github/database/lab_01/script.sql
+-- \i lab_01/script.sql
 
 CREATE TABLE IF NOT EXISTS world
 (
@@ -12,10 +12,7 @@ CREATE TABLE IF NOT EXISTS world
 	price INT CHECK (price >= 0)
 );
 
-LOAD DATA LOCAL
-INFILE '/home/lis/university/github/database/lab_01/world.csv'
-INTO TABLE world
-FIELDS TERMINATED BY ',';
+copy world from '/home/lis/university/github/database/lab_01/world.csv' delimiter ',';
 
 CREATE TABLE IF NOT EXISTS device
 (
@@ -26,12 +23,9 @@ CREATE TABLE IF NOT EXISTS device
 	price INT CHECK (price >= 0 AND price <= 100000)
 );
 
-LOAD DATA LOCAL
-INFILE '/home/lis/university/github/database/lab_01/device.csv'
-INTO TABLE device
-FIELDS TERMINATED BY ',';
+-- copy device from 'lab_01/device.csv' delimiter ',';
 
-CREATE TABLE IF NOT EXISTS user
+CREATE TABLE IF NOT EXISTS users
 (
 	id INT NOT NULL PRIMARY KEY,
 	nickname  VARCHAR(32),
@@ -43,40 +37,32 @@ CREATE TABLE IF NOT EXISTS user
 	FOREIGN KEY (id_device) REFERENCES device(id)
 );
 
-LOAD DATA LOCAL
-INFILE '/home/lis/university/github/database/lab_01/user.csv'
-INTO TABLE user
-FIELDS TERMINATED BY ',';
+-- copy users from 'lab_01/user.csv' delimiter ',';
 
 CREATE TABLE IF NOT EXISTS world_user
 (
 	id_world INT,
 	FOREIGN KEY (id_world) REFERENCES world(id),
 	id_user INT,
-	FOREIGN KEY (id_user) REFERENCES user(id)
+	FOREIGN KEY (id_user) REFERENCES users(id)
 );
 
-LOAD DATA LOCAL
-INFILE '/home/lis/university/github/database/lab_01/world_user.csv'
-INTO TABLE world_user
-FIELDS TERMINATED BY ',';
+-- /home/lis/university/github/database/
+-- copy world_user from 'lab_01/world_user.csv' delimiter ',';
 
 
 CREATE TABLE IF NOT EXISTS device_history 
 (
 	-- id INT NOT NULL PRIMARY KEY,
 	id_user INT,
-	FOREIGN KEY (id_user) REFERENCES user(id),
+	FOREIGN KEY (id_user) REFERENCES users(id),
 	id_device INT,
 	FOREIGN KEY (id_device) REFERENCES device(id),
-	year_begin INT CHECK(data_begin >= 2000 and data_begin <= 2120),
-	year_end INT CHECK(data_end >= 2000 and data_end <= 2120)
+	year_begin INT CHECK(year_begin >= 2000 and year_begin <= 2120),
+	year_end INT CHECK(year_end >= 2000 and year_end <= 2120)
 );
 
-LOAD DATA LOCAL
-INFILE '/home/lis/university/github/database/lab_01/device_history.csv'
-INTO TABLE device_history
-FIELDS TERMINATED BY ',';
+-- copy device_history from 'lab_01/device_history.csv' delimiter ',';
 
 -- INSERT INTO world(id, name) VALUES(1001, 'Name');
 -- INSERT INTO user VALUES(1001,'Alice',20,'f',0,123);
