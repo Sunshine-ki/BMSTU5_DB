@@ -1,0 +1,580 @@
+\chapter{Функциональная зависимость (Лекция 5)}
+
+\textbf{Функциональная зависимость (ФЗ)}
+
+R - отношение
+
+x, y - подмножество мн-ва атрибутов.
+
+x->y <=> любое x связано в точности с одним y (Биекция)
+
+{Sno} -> {City}
+
+детерминант - правая часть.
+зависимая часть - левая.
+
+Функциональную зависимость строим исходя из имеющихся данных.
+А не на основе какой-то логике.
+
+Зависимая часть может содержать несколько значений.
+Детерминант тоже может содержать нес. значений.
+
+\textbf{Тривиальная функциональная зависимость} - когда y явл. подмножеством x.
+
+{Sno, Pno} -> {Sno}
+{Sno, Qty} -> {Qty}
+
+Множество всех функциональных зависимостей, которые задаются данным множеством
+ФЗ является \textbf{замыканием множества}.
+
+\textbf{Правило Амстронга}
+
+\begin{itemize}
+	\item Правило рефлексивности: Если B подможество A, то B функционально зависит от А (A->B)
+	\item Правило дополнения: Если B функционально зависит от А (A->B), то АС->BC
+	      (Т.е. мы можем добавить абрибут справа и слева)
+	\item Правило транзитивности: A->B, B->C => A->C
+	\item (Выше были основные далее вытекают из ранее приведенных)
+	      Самоопределния: A->A
+	\item Декомпозиции: A->BC => A->B и A->C
+	\item Объединения: A->B и  A->C => A->BC
+	\item Композиция: A->B и C-> D => AC -> BD
+	\item Общая теорема объединения: A->B и C->D => A(C-B)->BD
+\end{itemize}
+
+Пример (Задач, которые будут на РК)
+
+1. R(A,B,C,D,E,F)
+
+S = \{
+A->BC,
+
+B->E,
+
+CD->EF
+\}
+
+Задача: AD->F ?
+
+Решение:
+
+1. A->BC => A->B и A->C
+
+2. A->C => AD->CD
+
+3, AD->CD И CD->EF => AD->EF
+
+4. AD->EF => AD->F
+
+\textbf{Супер ключ} - Супер ключ R - множество атрибутов R,
+котор. содержит в виде подмножества хотя бы один
+(не обязательно собственный) потенциальный ключ.
+(ключ с множество ключей с доп. атрибутами).
+
+К - подмножество R
+
+K->A для любого A принадлежащего R.
+
+\textbf{Алгоритм нахождения ключа}
+
+1. K = R
+
+2. Для каждого атрибута из K выполняем след. действия
+
+2.1 Вычислим замыкание {K-A}+
+
+2.2 Если замыкание {K-A}+ = R, то K = {K-A}+
+
+\textbf{Алгоритм вычисления замыкания}
+
+\begin{enumerate}
+	\item $J_(new)$ = k
+	\item repeat
+	\item $J_(old)$ = $J_(new)$
+	\item foreach (X->Y in S) do
+	\item J(X подмножество $J_(new)$) then $J_(new)$ = $J_(new)$ + J
+	\item until ($J_(old)$ = $J_(new)$)
+\end{enumerate}
+
+Пример:
+
+R(A,B,C,D,E,F)
+S = \{
+A->BC,
+
+E->CF,
+
+B->E,
+
+CD->EF
+\}
+
+Найти: {A, B}+ ?
+
+
+Решение: {A, B}+ = {A, B, C, E, F}
+
+ЕСЛИ БЫ ТАМ ЕЩЕ БЫЛО D, ТО ЭТО ЯВЛЯЛОСЬ БЫ ПОТЕНЦИАЛЬНЫМ КЛЮЧОМ.
+
+Два множества ФЗ S1 и S2 явл \textbf{эквивалентными} тогда и только тогда
+когда они явл. покрытиями друг друга.
+
+Пример:
+
+Есть F - Набор ФЗ.
+
+F = \{
+A -> C,
+
+AC -> D,
+
+E -> AD,
+
+E -> H
+\}
+
+G = \{
+A -> CD,
+
+E -> AH
+\}
+
+Задача: Доказать что они явлю эквивалентными (или не явл.)
+
+Решение:
+
+1. G - покрывает F ?
+
+\{A\}+ = \{A,C,D\} (Строим по F) = A->CD (По G)
+
+\{E\}+ = \{E, A, D, H, C\} (ПО F) = \{E, A, H, C, D\} (Множества совпадают, значит G покрывает F)
+
+1. F - покрывает G ?
+
+(По кому покрываем по тому и строим)
+
+\{A\}+ = \{A,C,D\} (По G) = \{A,C,D\}
+
+\{AС\}+ = \{A,C,D\} (По G) = \{ACD\}
+
+\{E\}+ = \{E, A, D, H, C\} (По G) = \{E, A, H, C, D\} => F эквивалентно G.
+
+Множество ФЗ явл. \textbf{неприводимым} тогда и только тогда, когда обладает след. свойствами:
+
+\begin{enumerate}
+	\item Любая ФЗ X->Y, Y - один элемент
+	\item Ни одну ФЗ нельзя удалить без изменения замыкания
+	\item Ни один атрибут не может быть удален из детерминента без изменения замыкания
+\end{enumerate}
+
+Примеры (Явл. min покрытием?):
+
+1. S:
+
+\{Pno\} -> \{Pname, Color\}
+
+\{Pno\} -> \{City\}
+
+Нарушает! =>
+
+\{Pno\} -> \{Pname\}
+
+\{Pno\} -> \{Color\}
+
+2.
+
+S:
+
+Pno -> Pno
+
+Pname -> Pname
+
+Pno -> City
+
+Нарушает! =>
+
+Pno -> City
+
+3. E - множество ФЗ.
+
+min покрытие F (Проверяем все правила)
+
+1. F = E
+
+X -> \{A1,...,An\} =>
+
+декомпозиция:
+
+X - > A1
+
+X - > An
+
+2. Любая ФЗ X -> A из F
+
+Любой B из X:
+
+F - \{X-A\} объединение \{(X-B) -> A\} = F
+
+3. Для каждой ФЗ, где A -> X
+
+Мы проверяем
+
+F - \{X -> A\} = F
+
+Если так, то мы можем удалить.
+
+Пример (Найти min покрытие):
+
+R (A,B,C,D)
+
+A -> BC
+
+B -> C
+
+A -> C
+
+AB -> C
+
+AC -> D
+
+1. Разбиваем (Удаляем те ФЗ, которые выводимы)
+
+A -> B
+
+A -> C (Это можно удалить)
+
+B -> C
+
+A -> B (Это тоже можно удалить )
+
+AB -> C
+
+AC -> D
+
+2. Разбиваем (Удаляем те ФЗ, которые выводимы)
+
+Объединяем первые две и делаем композицию с третьей и получается выводим третью,
+значит ее можно удалить
+
+A -> B
+
+B -> C
+
+AB -> C
+
+AC -> D
+
+3.
+
+A -> B
+
+B -> C
+
+AC -> D
+
+4.
+
+A -> B
+
+B -> C
+
+A -> D
+
+
+\chapter{Семинар 4}
+
+Процедуры и функции.
+
+Параметры - имя, тип.
+
+Отличие: параметры у процедуры не берутся в скобки.
+
+@ - локальная переменная.
+
+@@ - глобальная переменная.
+
+Параметры которые передаются по ссылки передаются с OUTPUT
+
+Глубина рекурсии - 32.
+
+create procedure [схема].имя  <параметры>
+
+[with <опции>]
+
+as
+
+<тело функции>
+
+end;
+
+Пример: (Факториал)
+
+У postgres'a другие ключевые слова!
+
+\begin{lstlisting}[label=some-code,caption=Пример]
+create procedure dbo.Factorial @Valin bigint, 
+@ValOut bigint OUTPUT
+as
+begin
+if @Valin > 20
+begin
+print N'Error'
+return -99
+end
+-- 'Объявляем переменную'
+declare @WorkValin bigint
+-- 'Создаем переменную'
+@WorkValout bigint
+if @Valint != 1
+begin
+set @WarkValin = @Valin - 1
+print @@NestedLevel
+exec dbo.Factorial @WarkValIn, @WorkValout
+set @ValOut = @WorkIN(WorkValOut)
+end;
+else
+set @ValOut
+end
+\end{lstlisting}
+
+Вызов процедуры:
+
+\begin{lstlisting}[label=some-code,caption=Пример]
+-- 'Определяем две переменные'
+declare @FactIn
+bigint
+declare @Factout
+bigint
+set dbo.Factorial @Factin @FactOut OUTPUT
+print convert(Varchar(20) @Factout)
+\end{lstlisting}
+
+Пишем истинную процедуру, которая ничего не возвращает, а лишь изменяет таблицу.
+
+Имеем таблицу.
+
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{ | l | l ||}
+		\hline
+		id  & name  \\ \hline
+		1   & test1 \\ \hline
+		2   & test2 \\ \hline
+		3   & test3 \\ \hline
+		... & ...   \\ \hline
+		n   & testn \\ \hline
+		\hline
+	\end{tabular}
+	\caption{Таблица}
+\end{table}
+
+
+Задание: Добавить данные в таблицу.
+Добавить в конец еще одну строку.
+
+Можно вставить python код.
+
+\$\$ - тело процедуры в долларах
+
+(В первую переменную ( maxid ) запишется max(id) + 1)
+(Во вторую ( maxname ) 'test' || max(id) + 1)
+
+\begin{lstlisting}[label=some-code,caption=Пример]
+create function addTest()
+returns void
+language PipgSQL
+as $$ 
+declare 
+	maxid int
+	maxname Varchar(10)
+begin
+	select max(id) + 1, 'test' || max(id) + 1
+	from test
+	into maxid, maxname 
+	insert into test(id, name)
+	values (maxis, maxName)
+\end{lstlisting}
+
+\textbf{Либо вот так:}
+
+\begin{lstlisting}[label=some-code,caption=Пример]
+create function addTest()
+returns void
+language PipgSQL
+as $$ 
+declare 
+	maxid int
+	maxname Varchar(10)
+begin
+	select insert into test
+	values ('||max(id)+1|', "test'||max(id)+1||'");
+	from test
+	into maxid, maxname 
+\end{lstlisting}
+
+\textbf{Запускаем:}
+
+query execute qSrting
+
+\textbf{Триггер} - Объект. Ответ на событие. Реакция.
+
+\textbf{Виды:}
+
+\begin{enumerate}
+	\item DDl -триггеры (create, drop, alter)
+	\item DDM - триггер (insert, delete, update)
+	      \begin{enumerate}
+		      \item instead of (Вместо) (Кол-во 1)
+		      \item before/alter Реагируют на какое-то действие и добавляют свое (делают действие до и после) (Вместе с) (Кол-во бесконечено)
+	      \end{enumerate}
+	      \begin{table}[ht]
+		      \centering
+		      \begin{tabular}{ | l | l | l|}
+			      \hline
+			      Хар-ка     & instead of             & before/alter \\ \hline
+			      тип        & вместо                 & вместе с     \\ \hline
+			      кол-во     & 1                      & бесконечно   \\ \hline
+			      применение & таблица, представления & таблица      \\ \hline
+			      \hline
+		      \end{tabular}
+		      \caption{Таблица}
+	      \end{table}
+\end{enumerate}
+
+for - указываем на какие события мы реагируем.
+
+as - после этого ключевого слова указывает действия, которые хотим сделать.
+
+\begin{lstlisting}[label=some-code,caption=Пример DDL триггера.]
+create trigger safety 
+on database
+for drop_table, alter_table
+as begin
+	print N'Error'
+	rollback 
+end;
+\end{lstlisting}
+
+Создадим триггер.
+
+\begin{lstlisting}[label=some-code,caption=Создадим триггер.]
+create trigger inserSP
+on SP
+after update
+as 
+begin
+	raiserror 'Новая подставка'
+end;
+\end{lstlisting}
+
+\section{Курсор}
+
+Курсор - это набор из результата sql запроса и указатель. (Зло). Это объект.
+
+Используется - когда нужно выполнить что-то в цикле (к примеру удалть объекты)
+
+Классификация
+
+\begin{enumerate}
+	\item По области видимости:
+	      \begin{itemize}
+		      \item Локальные
+		      \item Глобальные
+	      \end{itemize}
+	\item По типу:
+	      \begin{itemize}
+		      \item Static (Статичный) (Требует доп. ресурса. Также таблица не должна менять)
+		      \item Dynamic (Динамический). Позволяет отлеживать все изменения. (На это нужно огромные ресурсы. Тем самым время)
+		      \item Key set - модификация динамического курсора.
+		      \item Fast forward - всегда идем только вниз (просматриваем вниз)
+	      \end{itemize}
+	\item По способу перемещения.
+	      \begin{itemize}
+		      \item Forward\_only Вниз
+		      \item Scroll - Гуляем туда сюда.
+		      \item По параллельному доступу.
+		            \begin{enumerate}
+			            \item read-only
+			            \item Optimistic - разрешаем другим читать.
+			            \item Scroll lock (Пессимистичная блокировка) - Не дает доступа другим.
+		            \end{enumerate}
+
+	      \end{itemize}
+\end{enumerate}
+
+\begin{lstlisting}[label=some-code,caption=Курсор]
+declare 'имя курсора'
+cursor 
+['область видимости']
+['тип']
+['Способ применения']
+['Параллельный доступ']
+for <sql-запрос>
+\end{lstlisting}
+
+\begin{lstlisting}[label=some-code,caption=Курсор. Пример]
+declare myCursor cursor
+for select Sname, Pname
+from S join SP
+on S.Sno = SP.Sno
+join P on P.Pno = Sp.Pno
+
+declare @Swork Varchar(10), @Pwork Varchar(10)
+
+open myCursor
+
+-- fetch - 'Запись переменной'
+-- next - 'В каком' 'порядке'
+fetch next from myCursor 
+into @Swork, @Pwork
+-- - @@Fetch_status - 0 - 'больше не' 'можем читать' (EOF)
+while @@Fetch_status == 0
+begin fetch next from myCursor
+into ...
+end;
+close myCursor
+\end{lstlisting}
+
+\section{Индексы}
+
+Оптимизация запросов.
+
+В основе лежит b\_tree - сбалансированное дерево.
+
+Класторизованный индекс - Реальные данные в листе.
+
+\begin{enumerate}
+	\item Можно создать 1 класторизованный индекс
+	\item primary key / unique
+\end{enumerate}
+
+Некласторизованный и ндекс - Если хранятся ссылки на объекты.
+
+\begin{enumerate}
+	\item n штук
+	\item Создается по запросу
+\end{enumerate}
+
+
+\begin{lstlisting}[label=some-code,caption=Индекс]
+select *
+from test
+where id = 29
+\end{lstlisting}
+
+\begin{lstlisting}[label=some-code,caption=Индекс. Создание]
+create nonclustered index my myId
+on SP
+include (Sno, Pno)
+
+select *
+from SP
+where Qty=5
+\end{lstlisting}
+
+\section{Партицирование}
+
+(partirion by)
+
+Разбиение данных в таблице на подтаблицы.
