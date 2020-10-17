@@ -46,16 +46,49 @@ WHERE id_device in
 
 -- 22. Инструкция SELECT, использующая
 -- простое обобщенное табличное выражение
-with meow (id_device, sex)
-as
+WITH meow (id_device, sex)
+AS
 (
-    select u.id_device, u.sex from users as u
+    SELECT u.id_device, u.sex FROM users AS u
 )
-select * from meow;
+SELECT * FROM meow;
+
+WITH CTEworld
+AS
+(
+    SELECT * FROM world
+)
+SELECT * FROM  CTEworld;
 
 -- 23. Инструкция SELECT, использующая
 -- рекурсивное обобщенное табличное выражение.
--- TODO: Добавить рек. в таблицу
+-- Создаем таблицу.
+-- (Загрузить туда данные далее нужно не забыть...)
+CREATE TABLE UsersTest
+(
+    id INT NOT NULL PRIMARY KEY,
+    invited_id  INT,
+	name VARCHAR(32)
+);
+
+-- Собственно сам рекурсивный запрос.
+-- Вывести цепочку (кого пригласил) определенный юзер.
+WITH RECURSIVE RecursiveUsers(id, invited_id, name)
+AS
+(
+    -- Определение закрепленного элемента.
+    SELECT id, invited_id, name
+    FROM UsersTest U_T
+    WHERE U_T.ID = 1
+    UNION ALL
+    -- Определение рекурсивного элемента
+    SELECT U_T.id, U_T.invited_id, U_T.name
+    FROM UsersTest U_T
+    JOIN RecursiveUsers rec ON U_T.invited_id=rec.id
+)
+SELECT *
+FROM RecursiveUsers;
+
 
 -- 24. Оконные функции.
 -- Использование конструкций MIN/MAX/AVG OVER()
@@ -63,6 +96,3 @@ select * from meow;
 SELECT id, nickname,  age, SUM(number_of_hours) OVER(PARTITION BY age) sum
 FROM users
 ORDER BY id;
-
--- 25. Оконные фнкции для устранения дублей
--- TODO:.

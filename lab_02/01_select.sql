@@ -169,24 +169,37 @@ GROUP BY color;
 
 -- 12. Вложенные коррелированные подзапросы в качестве 
 -- производных таблиц в предложении FROM.
--- TODO: Игра определнного года и шлем определенного цвета и вывести просто юзреа.
+-- Вывести всех изеров у которых розовые шлема.
+SELECT users.id, nickname, id_device
+FROM users
+JOIN (
+    SELECT id
+    FROM device
+    WHERE color = 'pink'
+    ) AS D ON users.id_device = D.id;
 
 -- 13. вложенные подзапросы с уровнем вложенности 3
--- SELECT
--- SELECT nickname
--- FROM users
--- WHERE id_device =
---       (
---           SELECT device.id
---           FROM device
---           WHERE device.id = users.id_device AND color='red'
---           AND device.id =
---                 (
---                     SELECT id_device
---                     FROM device_history d_h
---                     WHERE d_h.id_device = device.id
---                 )
---       );
+-- Вывести все миры,
+-- У которых пользователи играют в
+-- Розовом шлеме.
+SELECT id, name
+FROM world
+WHERE id in
+      (
+          SELECT id_world
+          FROM world_user
+          WHERE id_user IN
+                (
+                    SELECT id
+                    FROM users
+                    WHERE id_device IN
+                          (
+                              SELECT id
+                              FROM device
+                              WHERE color = 'pink'
+                          )
+                )
+      );
 
 -- 14. предложения GROUP BY, но без предложения HAVING.
 -- Вывести кол-во выпущенных шлемов, min и max 
