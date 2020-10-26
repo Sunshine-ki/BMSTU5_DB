@@ -2,8 +2,10 @@
 -- Инфа про триггеры:
 -- https://postgrespro.ru/docs/postgresql/9.6/sql-createtrigger
 
--- SELECT * INTO user_tmp
--- FROM userstest;
+SELECT * INTO user_tmp
+FROM userstest;
+
+-- drop table user_tmp;
 
 -- C.1. Триггер AFTER.
 -- Когда в таблице меняется id человека (на new.id),
@@ -14,7 +16,8 @@ RETURNS TRIGGER
 AS '
 BEGIN
     RAISE NOTICE ''New =  %'', new;
-    RAISE NOTICE ''Old =  %'', old;
+    RAISE NOTICE ''Old =  %'', old; RAISE NOTICE ''New =  %'', new;
+
 
     UPDATE user_tmp
     SET invited_id = new.id
@@ -33,11 +36,48 @@ AFTER UPDATE ON user_tmp
 FOR EACH ROW
 EXECUTE PROCEDURE update_trigger();
 
-
 UPDATE user_tmp
-SET id = 1
-WHERE id = 15;
+SET id = 15
+WHERE id = 1;
 
 SELECT * FROM user_tmp;
 
 -- C.2. Триггер INSTEAD OF.
+-- INSTEAD OF - Сработает вместо указанной операции.
+
+-- Заменяем удаление на мягкое удаление.
+-- Т.е. при попытки удалить шлем, он не будет
+-- Удален, а лишь поставлен company = none
+-- Что будет свидетельствовать о том
+-- Что данного шлема больше нет.
+CREATE VIEW device_new AS
+SELECT * -- INTO device_new
+FROM device
+WHERE id < 15;
+
+SELECT * FROM device_new;
+
+CREATE OR REPLACE FUNCTION del_device_func()
+RETURNS TRIGGER
+AS '
+BEGIN
+    RAISE NOTICE ''New =  %'', new;
+
+    UPDATE device_new
+    SET company = ''none''
+    WHERE device_new.id = old.id;
+
+    RETURN new;
+END;
+' LANGUAGE plpgsql;
+
+CREATE TRIGGER del_device_trigger
+INSTEAD OF DELETE ON device_new
+    FOR EACH ROW
+    EXECUTE PROCEDURE del_device_func();
+
+DELETE FROM device_new
+WHERE year_of_issue = 2046;
+
+SELECT * FROM device_new
+ORDER BY year_of_issue;
