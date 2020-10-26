@@ -101,10 +101,11 @@ CREATE OR REPLACE PROCEDURE proc_update_cursor
     new_invited_id INT
 )
 AS '
-DECLARE myCursor CURSOR FOR
-    SELECT *
-    FROM user_tmp
-    WHERE invited_id = in_invited_id;
+DECLARE
+    myCursor CURSOR FOR
+        SELECT *
+        FROM user_tmp
+        WHERE invited_id = in_invited_id;
     tmp user_tmp;
 BEGIN
     OPEN myCursor;
@@ -132,16 +133,34 @@ CALL proc_update_cursor(1, 0);
 
 SELECT * FROM user_tmp;
 
+-- B.4. Хранимую процедуру доступа к метаданным.
+-- Получаем название атрибутов и их тип по .
+CREATE OR REPLACE PROCEDURE metadata(name VARCHAR) -- Получает название таблицы
+AS '
+    -- Инфа про метаданные:
+    -- https://postgrespro.ru/docs/postgresql/9.6/infoschema-columns
+    DECLARE
+        myCursor CURSOR FOR
+            SELECT column_name,
+                   data_type
+           -- INFORMATION_SCHEMA обеспечивает доступ к метаданным о базе данных.
+           -- columns - данные о столбацых.
+            FROM information_schema.columns
+            WHERE table_name = name;
+        -- RECORD - переменная, которая подстравивается под любой тип.
+        tmp RECORD;
+BEGIN
+        OPEN myCursor;
 
+        LOOP
+            FETCH myCursor
+            INTO tmp;
+            EXIT WHEN NOT FOUND;
+            RAISE NOTICE ''column name = %; data type = %'', tmp.column_name, tmp.data_type;
+        END LOOP;
 
+        CLOSE myCursor;
+END;
+' LANGUAGE plpgsql;
 
-
-
-
-
-
-
-
-
-
-
+CALL metadata('users');
