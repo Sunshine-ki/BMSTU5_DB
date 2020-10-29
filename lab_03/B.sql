@@ -42,6 +42,8 @@ CALL update_user(1, 1);
 
 -- B.2. Рекурсивную хранимую процедуру или хранимую процедур с рекурсивным ОТВ.
 
+-- TODO: Тоже на свою таблицу.
+
 -- Фибоначи. Входные параметры:
 -- 1. Куда запишем результат.
 -- 2. max - число, до которого будут считаться числа фибоначи.
@@ -68,7 +70,7 @@ BEGIN
 END;
 'LANGUAGE  plpgsql;
 
-CALL fib_proc(0, 21);
+CALL fib_proc(0, 100);
 
 -- Выводит число по индексу из последовательности числел фибоначи.
 CREATE OR REPLACE PROCEDURE fib_proc_index
@@ -94,6 +96,12 @@ CALL fib_proc_index(0, 5);
 -- B.3. Хранимую процедуру с курсором
 -- Отладочная печать: RAISE NOTICE 'Вызов %', in_id;
 
+select *
+into user_tmp_cursor
+from userstest;
+
+-- Можно считать сумму баллов.
+
 -- Меняет invited_id всех юзеров, которых пригласил один и тот же пользователь с id равным in_invited_id.
 CREATE OR REPLACE PROCEDURE proc_update_cursor
 (
@@ -104,9 +112,9 @@ AS '
 DECLARE
     myCursor CURSOR FOR
         SELECT *
-        FROM user_tmp
+        FROM user_tmp_cursor
         WHERE invited_id = in_invited_id;
-    tmp user_tmp;
+    tmp user_tmp_cursor;
 BEGIN
     OPEN myCursor;
 
@@ -119,23 +127,27 @@ BEGIN
         -- Выходим из цикла, если нет больше строк (Т.е. конец).
         EXIT WHEN NOT FOUND;
 
-        UPDATE user_tmp
+        UPDATE user_tmp_cursor
         SET invited_id = new_invited_id
-        WHERE user_tmp.id = tmp.id;
+        WHERE user_tmp_cursor.id = tmp.id;
 
         RAISE NOTICE ''Elem =  %'', tmp;
     END LOOP;
+
     CLOSE myCursor;
 END;
 'LANGUAGE  plpgsql;
 
-CALL proc_update_cursor(1, 0);
+CALL proc_update_cursor(1, 20);
 
-SELECT * FROM user_tmp;
+SELECT * FROM user_tmp_cursor;
 
 -- B.4. Хранимую процедуру доступа к метаданным.
--- Получаем название атрибутов и их тип по .
-CREATE OR REPLACE PROCEDURE metadata(name VARCHAR) -- Получает название таблицы
+-- Получаем название атрибутов и их тип.
+
+-- TODO: Защита: без курсора вывод в консоль.
+
+CREATE OR REPLACE PROCEDURE metadata(name VARCHAR) -- Получает название таблицы.
 AS '
     -- Инфа про метаданные:
     -- https://postgrespro.ru/docs/postgresql/9.6/infoschema-columns

@@ -21,7 +21,7 @@ RETURNS users AS '
 -- Т.к. известно, что этот кортеж типа "user"
 -- То мы можем селект запросом вывести этот кортеж как таблицу.
 SELECT *
-FROM get_user(15);
+FROM get_user(21);
 
 -- A.3. Многооператорную табличную функцию.
 -- Вернуть таблицу игр с заданным возратсным ограничением.
@@ -37,11 +37,14 @@ AS '
     SELECT id, name, founder, genre
     FROM world
     WHERE age_restrictions=age_rest;
+    -- TODO: Добавить inset, либо select на другую таблицу
 'LANGUAGE  sql;
 
 
 SELECT *
 FROM get_world_by_age_restrictions(18);
+
+-- TODO: На свою таблицу переписать рекурсию.
 
 -- A.4. Рекурсивную функцию или функцию с рекурсивным ОТВ
 -- Фибоначи. Аргументы:

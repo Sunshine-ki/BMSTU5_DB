@@ -37,7 +37,7 @@ FOR EACH ROW
 EXECUTE PROCEDURE update_trigger();
 
 UPDATE user_tmp
-SET id = 15
+SET id = 20
 WHERE id = 1;
 
 SELECT * FROM user_tmp;
@@ -50,10 +50,13 @@ SELECT * FROM user_tmp;
 -- Удален, а лишь поставлен company = none
 -- Что будет свидетельствовать о том
 -- Что данного шлема больше нет.
+-- VIEW - вирутальная табоица.
 CREATE VIEW device_new AS
 SELECT * -- INTO device_new
 FROM device
 WHERE id < 15;
+
+-- drop VIEW device_new;
 
 SELECT * FROM device_new;
 
