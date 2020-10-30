@@ -42,8 +42,6 @@ CALL update_user(1, 1);
 
 -- B.2. Рекурсивную хранимую процедуру или хранимую процедур с рекурсивным ОТВ.
 
--- TODO: Тоже на свою таблицу.
-
 -- Фибоначи. Входные параметры:
 -- 1. Куда запишем результат.
 -- 2. max - число, до которого будут считаться числа фибоначи.
@@ -92,6 +90,51 @@ END;
 
 -- 2, 3, 5, 8, 13, 21
 CALL fib_proc_index(0, 5);
+
+
+-- TODO: Тоже на свою таблицу. (Рекурсивную хранимую процедуру). Ok.
+-- Получить награду за каждого приглашенного пользователя.
+-- За самого себя (то что авторизировался) получает 500.
+-- Далее, чем ниже по дереву, тем меньше вознаграждение.
+-- Т.е. за пользователя, которого пригласил ты, получишь 450
+-- За пользователя, которого ппригласил пользователь,
+-- Которого пригласил ты 400 и тд....
+CREATE OR REPLACE PROCEDURE get_reward
+(
+    res INOUT INT,
+    in_id INT,
+    coefficient FLOAT DEFAULT 1
+)
+AS '
+DECLARE
+    elem INT;
+BEGIN
+
+    IF coefficient <= 0 THEN
+        coefficient = 0.1;
+    END IF;
+
+    res = res + 500 * coefficient;
+
+    RAISE NOTICE ''res = %, coefficient = %'', res, coefficient;
+
+    FOR elem IN
+        SELECT *
+        FROM userstest
+        WHERE invited_id = in_id
+        LOOP
+            CALL get_reward(res, elem, coefficient - 0.1);
+        END LOOP;
+
+END;
+' LANGUAGE plpgsql;
+
+-- Pasha = 500 + 450 * 5 = 2750.
+-- Alice = 500 + 450 * 2 * (5 + 4) * 400 = 5000.
+CALL get_reward(0, 1);
+
+
+
 
 -- B.3. Хранимую процедуру с курсором
 -- Отладочная печать: RAISE NOTICE 'Вызов %', in_id;
@@ -176,3 +219,16 @@ END;
 ' LANGUAGE plpgsql;
 
 CALL metadata('users');
+
+CREATE OR REPLACE PROCEDURE metadata2(name VARCHAR)
+AS '
+BEGIN
+
+
+
+    RAISE NOTICE ''column name = ; data type = '';
+
+END;
+' LANGUAGE plpgsql;
+
+CALL metadata2('users');

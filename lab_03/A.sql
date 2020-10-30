@@ -24,27 +24,34 @@ SELECT *
 FROM get_user(21);
 
 -- A.3. Многооператорную табличную функцию.
--- Вернуть таблицу игр с заданным возратсным ограничением.
-CREATE OR REPLACE FUNCTION get_world_by_age_restrictions(age_rest INT)
+-- Вернуть таблицу игр с заданными двумя возратсными ограничениеми.
+-- TODO: Добавить inset, либо select на другую таблицу; Ok.
+CREATE OR REPLACE FUNCTION get_world_by_age_restrictions(first_age_rest INT, second_age_rest INT)
 RETURNS TABLE
 (
-    id INT,
-    name  VARCHAR,
-    founder  VARCHAR,
-    genre VARCHAR
+    out_id INT,
+    out_name  VARCHAR,
+    out_founder  VARCHAR,
+    out_genre VARCHAR
 )
 AS '
+BEGIN
+    -- Добавить к таблице.
+    RETURN QUERY
     SELECT id, name, founder, genre
     FROM world
-    WHERE age_restrictions=age_rest;
-    -- TODO: Добавить inset, либо select на другую таблицу
-'LANGUAGE  sql;
+    WHERE age_restrictions=first_age_rest;
+
+    RETURN QUERY
+    SELECT id, name, founder, genre
+    FROM world
+    WHERE age_restrictions=second_age_rest;
+END;
+'LANGUAGE  plpgsql;
 
 
 SELECT *
-FROM get_world_by_age_restrictions(18);
-
--- TODO: На свою таблицу переписать рекурсию.
+FROM get_world_by_age_restrictions(14, 18);
 
 -- A.4. Рекурсивную функцию или функцию с рекурсивным ОТВ
 -- Фибоначи. Аргументы:
@@ -66,3 +73,43 @@ END' LANGUAGE plpgsql;
 
 SELECT *
 FROM fib(1,1, 13);
+
+
+-- TODO: На свою таблицу переписать рекурсию. Ok.
+SELECT * FROM userstest;
+
+-- Вывести рекурсивно всех приглашенных пользователей,
+-- Начиная с какого-то id.
+CREATE OR REPLACE FUNCTION find_users(in_id INT)
+RETURNS TABLE
+(
+    out_id INT,
+    out_invited_id INT,
+    out_name VARCHAR
+)
+AS '
+DECLARE
+    elem INT;
+BEGIN
+
+    RETURN QUERY
+    SELECT *
+    FROM userstest
+    WHERE id = in_id;
+
+    FOR elem IN
+        SELECT *
+        FROM userstest
+        WHERE invited_id = in_id
+    LOOP
+            -- RAISE NOTICE ''ELEM = % '', elem;
+            RETURN QUERY
+            SELECT *
+            FROM find_users(elem);
+    END LOOP;
+
+END;
+' LANGUAGE plpgsql;
+
+SELECT *
+FROM find_users(1);
