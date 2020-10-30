@@ -112,4 +112,4 @@ END;
 ' LANGUAGE plpgsql;
 
 SELECT *
-FROM find_users(1);
+FROM find_users(2);

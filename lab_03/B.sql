@@ -135,7 +135,6 @@ CALL get_reward(0, 1);
 
 
 
-
 -- B.3. Хранимую процедуру с курсором
 -- Отладочная печать: RAISE NOTICE 'Вызов %', in_id;
 
@@ -188,8 +187,6 @@ SELECT * FROM user_tmp_cursor;
 -- B.4. Хранимую процедуру доступа к метаданным.
 -- Получаем название атрибутов и их тип.
 
--- TODO: Защита: без курсора вывод в консоль.
-
 CREATE OR REPLACE PROCEDURE metadata(name VARCHAR) -- Получает название таблицы.
 AS '
     -- Инфа про метаданные:
@@ -215,20 +212,29 @@ BEGIN
         END LOOP;
 
         CLOSE myCursor;
+
 END;
 ' LANGUAGE plpgsql;
 
 CALL metadata('users');
 
+-- TODO: Защита: без курсора вывод в консоль. Ok.
+
 CREATE OR REPLACE PROCEDURE metadata2(name VARCHAR)
 AS '
+DECLARE
+    elem RECORD;
 BEGIN
 
-
-
-    RAISE NOTICE ''column name = ; data type = '';
+    FOR elem IN
+        SELECT column_name,data_type
+        FROM information_schema.columns
+        WHERE table_name = name
+    LOOP
+            RAISE NOTICE ''elem = % '', elem;
+    END LOOP;
 
 END;
 ' LANGUAGE plpgsql;
 
-CALL metadata2('users');
+CALL metadata2('world');
