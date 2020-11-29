@@ -2,11 +2,13 @@ version: '3.1'
 
 services:
   db:
-    image: postgres:latest
+    build:
+      dockerfile: Dockerfile
+      context: ./
     environment:
       POSTGRES_USER: lis
       POSTGRES_PASSWORD: password
     ports:
       - 5432:5432
     volumes:
-      - ~/db/data:/var/lib/postresql/data
+      - ~/db/data:/var/lib/postgresql/data

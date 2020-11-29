@@ -6,7 +6,7 @@ sudo docker-compose up -d
 Остановить все контейнеры докера:
 sudo docker stop `sudo docker ps -aq`
 Удалить все использованные контейнеры (потому что могут занимать определенное кол-во памяти, лучше чистить периодически)
-sudo docker rm `sudo docker ps -aq`
+sudo docker rm -f `sudo docker ps -aq`
 
 Подключение к postgres'у через psql:
 psql -h localhost
@@ -31,6 +31,9 @@ create database name_bd
 
 Посмотреть таблицы:
 \d
+
+Посмотреть функции:
+\df
 
 Запустить скрипт
 \i path

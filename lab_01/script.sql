@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS world
 	price INT CHECK (price >= 0)
 );
 
-copy world from '/home/lis/university/github/database/lab_01/world.csv' delimiter ',';
+-- copy world from '/home/lis/university/github/database/lab_01/world.csv' delimiter ',';
 
 CREATE TABLE IF NOT EXISTS device
 (
