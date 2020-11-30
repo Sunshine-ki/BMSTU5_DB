@@ -2,61 +2,6 @@ select * from pg_language;
 
 -- create extension plpython3u;
 
-CREATE OR REPLACE FUNCTION test(a INT, b INT)
-RETURNS INT AS '
-	if a > b:
-		return a
-	return b
-' LANGUAGE plpython3u;
-
-SELECT test(5,39);
-
-CREATE TABLE num
-(
-	a INT,
-	b INT
-);
-
-INSERT INTO num VALUES(3,39);
-
-SELECT * FROM num;
-
-CREATE OR REPLACE FUNCTION test2(elem num)
-RETURNS INT AS '
-	if elem["a"] > elem["b"]:
-		return elem["a"]
-	return elem["b"]
-' LANGUAGE plpython3u;
-
-
-CREATE TYPE num_value AS 
-(
-	a INT,
-	b INT
-);
-
-CREATE OR REPLACE FUNCTION make_pair(a INT, b INT)
-RETURNS num_value
-AS
-'
-    return [a, b]
-'LANGUAGE plpython3u;
-
-
-SELECT * FROM make_pair(1, 21);
-
-
-CREATE OR REPLACE FUNCTION f()
-RETURNS INT
-AS
-$$
-ppl = plpy.execute("select 5 as num")
-return ppl[0]['num']
-$$ LANGUAGE plpython3u;
-
-SELECT * FROM f();
-
-
 -- 1) Определяемую пользователем скалярную функцию CLR.
 -- Получить название мира по id.
 CREATE OR REPLACE FUNCTION get_world_name(user_id INT)
@@ -184,4 +129,86 @@ CALL add_user(1000, 'Alice', 20, 'f', 1000, 234);
 
 
 -- 5) Триггер CLR.
+-- Создаем представление, т.к. таблицы не могут иметь INSTEAD OF triggers.
+CREATE VIEW users_new AS
+SELECT * -- INTO device_new
+FROM users
+WHERE id < 15;
+
+SELECT * FROM users_new;
+
+-- Заменяем удаление на мягкое удаление.
+CREATE OR REPLACE FUNCTION del_users_func()
+RETURNS TRIGGER
+AS $$
+old_id = TD["old"]["id"]
+rv = plpy.execute(f" \
+UPDATE users_new SET nickname = \'none\'  \
+WHERE users_new.id = {old_id}")
+
+return TD["new"]
+$$ LANGUAGE plpython3u;
+
+CREATE TRIGGER del_user_trigger
+-- INSTEAD OF - Сработает вместо указанной операции.
+INSTEAD OF DELETE ON users_new
+-- Триггер с пометкой FOR EACH ROW вызывается один раз для каждой строки,
+-- изменяемой в процессе операции.
+FOR EACH ROW
+EXECUTE PROCEDURE del_users_func();
+
+DELETE FROM users_new
+WHERE nickname = 'Dougar';
+
 -- 6) Определяемый пользователем тип данных CLR.
+-- Тип содержит цвет и кол-во шлемов такого цвета.
+CREATE TYPE color_count AS
+(
+	color VARCHAR,
+	count INT
+);
+
+CREATE OR REPLACE FUNCTION get_color_count(clr VARCHAR)
+RETURNS color_count
+AS
+$$
+plan = plpy.prepare("      \
+SELECT color, COUNT(color) \
+FROM device                \
+WHERE color = $1           \
+GROUP BY color;", ["VARCHAR"])
+
+# return value
+rv = plpy.execute(plan, [clr])
+
+# nrows - возвращает кол-во строк, обработанных командой.
+if (rv.nrows()):
+    return (rv[0]["color"], rv[0]["count"])
+$$ LANGUAGE plpython3u;
+
+SELECT * FROM get_color_count('white');
+
+
+-- CREATE OR REPLACE FUNCTION test(a INT, b INT)
+-- RETURNS INT AS '
+-- 	if a > b:
+-- 		return a
+-- 	return b
+-- ' LANGUAGE plpython3u;
+--
+-- SELECT test(5,39);
+
+-- CREATE TYPE num_value AS
+-- (
+-- 	a INT,
+-- 	b INT
+-- );
+--
+-- CREATE OR REPLACE FUNCTION make_pair(a INT, b INT)
+-- RETURNS num_value
+-- AS
+-- '
+--     return [a, b]
+-- 'LANGUAGE plpython3u;
+--
+-- SELECT * FROM make_pair(1, 21);
