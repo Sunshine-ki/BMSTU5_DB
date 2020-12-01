@@ -24,26 +24,12 @@ def main():
     cur = con.cursor()
 
     # Интерфейс.
-    window(cur)
+    window(cur, con)
 
     # Закрываем соединение с БД.
+    cur.close()
     con.close()
 
 
-# Выполняем запрос.
-# cur.execute('''CREATE TABLE STUDENT
-# 	(ADMISSION INT PRIMARY KEY NOT NULL,
-# 	NAME TEXT NOT NULL,
-# 	AGE INT NOT NULL,
-# 	COURSE CHAR(50),
-# 	DEPARTMENT CHAR(50));''')
-
-    # # Фиксируем изменения.
-    # # Т.е. посылаем команду в бд.
-    # # Метод commit() помогает нам применить изменения,
-    # # которые мы внесли в базу данных,
-    # # и эти изменения не могут быть отменены,
-    # # если commit() выполнится успешно.
-    # con.commit()
 if __name__ == "__main__":
     main()

@@ -18,13 +18,13 @@ def info_show():
     7. Вызвать хранимую процедуру(написанную в третьей лабораторной работе); \n\
     8. Вызвать системную функцию или процедуру; \n\
     9. Создать таблицу в базе данных, соответствующую тематике БД; \n\
-    10. Выполнить вставку данных в созданную таблицу с использованием"
+    10. Выполнить вставку данных в созданную таблицу с использованием инструкции INSERT или COPY."
 
     label1 = Label(info, text=info_txt, font="Verdana 14", bg="lavender")
     label1.pack()
 
 
-def window(cur):
+def window(cur, con):
     global root
 
     root.title('Лабораторная работа №6')
@@ -50,8 +50,13 @@ def window(cur):
                         command=lambda a=index: tasks[a](cur),  bg="thistle3")
         button.place(x=290, y=i)
 
-        button = Button(text="Задание " + str(index + 6), width=35, height=2,
-                        command=lambda a=index + 5: tasks[a](cur),  bg="thistle3")
-        button.place(x=610, y=i)  # anchor="center")
+        if index in [1, 3, 4]:
+            button = Button(text="Задание " + str(index + 6), width=35, height=2,
+                            command=lambda a=index + 5: tasks[a](cur, con),  bg="thistle3")
+            button.place(x=610, y=i)  # anchor="center")
+        else:
+            button = Button(text="Задание " + str(index + 6), width=35, height=2,
+                            command=lambda a=index + 5: tasks[a](cur),  bg="thistle3")
+            button.place(x=610, y=i)  # anchor="center")
 
     root.mainloop()

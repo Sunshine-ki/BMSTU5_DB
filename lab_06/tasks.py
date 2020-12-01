@@ -1,64 +1,4 @@
-from tkinter import *
-from tkinter import messagebox as mb
-
-
-def create_list_box(rows, title, count=15):
-    root = Tk()
-
-    root.title(title)
-    root.resizable(width=False, height=False)
-
-    size = (count + 3) * len(rows[0]) + 1
-
-    list_box = Listbox(root, width=size, height=22,
-                       font="monospace 10", bg="lavender", highlightcolor='lavender', selectbackground='#59405c', fg="#59405c")
-
-    list_box.insert(END, "█" * size)
-
-    for row in rows:
-        string = (("█ {:^" + str(count) + "} ") * len(row)).format(*row) + '█'
-        list_box.insert(END, string)
-
-    list_box.insert(END, "█" * size)
-
-    list_box.grid(row=0, column=0)
-
-    root.configure(bg="lavender")
-
-    root.mainloop()
-
-
-def execute_task4(cur, table_name):
-    table_name = table_name.get()
-
-    try:
-        cur.execute(f"SELECT * FROM {table_name}")
-    except:
-        mb.showerror(title="Ошибка", message="Такой таблицы нет!")
-        return
-
-    rows = [(elem[0],) for elem in cur.description]
-
-    create_list_box(rows, "Задание 4", 17)
-
-
-def execute_task1(cur, age):
-    try:
-        age = int(age.get())
-    except:
-        mb.showerror(title="Ошибка", message="Введите число!")
-        return
-
-    cur.execute(f" \
-        SELECT count(age) \
-        FROM users \
-        WHERE age={age} \
-        GROUP BY age")
-
-    row = cur.fetchone()
-
-    mb.showinfo(title="Результат",
-                message=f"Кол-во игроков в возрасте {age} составляет: {row[0]}")
+from execute_task import *
 
 
 def task1(cur):
@@ -93,7 +33,6 @@ def task2(cur):
     GROUP BY company;")
 
     rows = cur.fetchall()
-
     create_list_box(rows, "Задание 2")
 
 
@@ -121,12 +60,6 @@ def task4(cur):
 
     root_1.mainloop()
 
-    # cur.execute("SELECT * FROM cities")
-
-    # rows = cur.fetchall()
-
-    # desc = cur.description
-
 
 def task5(cur):
     cur.execute("SELECT get_max_number_of_hours() AS max_hours;")
@@ -138,20 +71,109 @@ def task5(cur):
 
 
 def task6(cur):
-    print("Task6")
+    root = Tk()
+
+    root.title('Задание 1')
+    root.geometry("300x200")
+    root.configure(bg="lavender")
+    root.resizable(width=False, height=False)
+
+    Label(root, text="  Введите id:", bg="lavender").place(
+        x=75, y=50)
+    user_id = Entry(root)
+    user_id.place(x=75, y=85, width=150)
+
+    b = Button(root, text="Выполнить",
+               command=lambda arg1=cur, arg2=user_id: execute_task6(arg1, arg2),  bg="thistle3")
+    b.place(x=75, y=120, width=150)
+
+    root.mainloop()
 
 
-def task7(cur):
-    print("Task7")
+def task7(cur, con=None):
+    root = Tk()
+
+    root.title('Задание 7')
+    root.geometry("300x400")
+    root.configure(bg="lavender")
+    root.resizable(width=False, height=False)
+
+    names = ["идентификатор",
+             "компанию",
+             "год издания",
+             "цвет",
+             "цену"]
+
+    param = list()
+
+    i = 0
+    for elem in names:
+        Label(root, text=f"Введите {elem}:",
+              bg="lavender").place(x=70, y=i + 25)
+        elem = Entry(root)
+        i += 50
+        elem.place(x=70, y=i, width=150)
+        param.append(elem)
+
+    b = Button(root, text="Выполнить",
+               command=lambda: execute_task7(cur, param, con),  bg="thistle3")
+    b.place(x=70, y=300, width=150)
+
+    root.mainloop()
 
 
 def task8(cur):
-    print("Task8")
+    # Информация:
+    # https://postgrespro.ru/docs/postgrespro/10/functions-info
+    cur.execute(
+        "SELECT current_database(), current_user;")
+    current_database, current_user = cur.fetchone()
+    mb.showinfo(title="Информация",
+                message=f"Имя текущей базы данных:\n{current_database}\nИмя пользователя:\n{current_user}")
 
 
-def task9(cur):
-    print("Task9")
+def task9(cur, con):
+    cur.execute(" \
+        CREATE TABLE IF NOT EXISTS blacklist \
+        ( \
+            user_id INT, \
+            FOREIGN KEY(user_id) REFERENCES users(id), \
+            world_id INT, \
+            FOREIGN KEY(world_id) REFERENCES world(id), \
+            reason VARCHAR \
+        ) ")
+
+    con.commit()
+
+    mb.showinfo(title="Информация",
+                message="Таблица успешно создана!")
 
 
-def task10(cur):
-    print("Task10")
+def task10(cur, con):
+    root = Tk()
+
+    root.title('Задание 10')
+    root.geometry("400x300")
+    root.configure(bg="lavender")
+    root.resizable(width=False, height=False)
+
+    names = ["идентификатор человека",
+             "идентификатор мира",
+             "причину"]
+
+    param = list()
+
+    i = 0
+    for elem in names:
+        Label(root, text=f"Введите {elem}:",
+              bg="lavender").place(x=70, y=i + 25)
+        elem = Entry(root)
+        i += 50
+        elem.place(x=115, y=i, width=150)
+        param.append(elem)
+
+    b = Button(root, text="Выполнить",
+               command=lambda: execute_task10(cur, param, con),  bg="thistle3")
+    b.place(x=115, y=200, width=150)
+
+    root.mainloop()
