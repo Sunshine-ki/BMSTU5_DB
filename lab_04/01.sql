@@ -212,3 +212,4 @@ SELECT * FROM get_color_count('white');
 -- 'LANGUAGE plpython3u;
 --
 -- SELECT * FROM make_pair(1, 21);
+

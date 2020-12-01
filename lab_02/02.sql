@@ -96,3 +96,13 @@ FROM RecursiveUsers;
 SELECT id, nickname,  age, SUM(number_of_hours) OVER(PARTITION BY age) sum
 FROM users
 ORDER BY id;
+
+WITH new_table (id, nickname, age, sum)
+AS
+(
+    SELECT id, nickname,  age, SUM(number_of_hours) OVER(PARTITION BY age) sum
+    FROM users
+    ORDER BY id
+)
+SELECT * FROM new_table;
+
