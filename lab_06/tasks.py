@@ -37,7 +37,18 @@ def task2(cur):
 
 
 def task3(cur):
-    print("Task3")
+    # Добавить столбец с суммой кол-ва часов по группам возраста.
+    cur.execute("\
+    WITH new_table (id, nickname, age, sum) \
+    AS \
+    ( \
+        SELECT id, nickname,  age, SUM(number_of_hours) OVER(PARTITION BY age) sum \
+        FROM users \
+        ORDER BY id \
+    ) \
+    SELECT * FROM new_table;")
+    rows = cur.fetchall()
+    create_list_box(rows, "Задание 3")
 
 
 def task4(cur):
