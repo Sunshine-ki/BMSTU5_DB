@@ -11,14 +11,15 @@ res = plpy.execute(f" \
     SELECT name \
     FROM world  \
     WHERE id = {user_id};")
-return res[0]['name']
+if res:
+    return res[0]['name']
 $$ LANGUAGE plpython3u;
 
 SELECT * FROM get_world_name(5) as "World name";
 
 -- 2) Пользовательскую агрегатную функцию CLR.
 -- Получить кол-во шлемов заданного цвета.
-CREATE OR REPLACE FUNCTION count_color(clr VARCHAR)
+CREATE OR REPLACE FUNCTION count_color(a INT, clr VARCHAR)
 RETURNS INT
 AS $$
 # res = plpy.execute(f" \
@@ -36,7 +37,15 @@ for elem in res:
 return count
 $$ LANGUAGE plpython3u;
 
-SELECT * FROM count_color('green');
+-- TODO: Защита сделалать агрегат.
+CREATE AGGREGATE count_color_agr(VARCHAR)
+(
+    -- Функция состояния.
+    SFUNC = count_color,
+    STYPE = INT
+);
+
+SELECT count_color_agr('black') FROM users;
 
 -- Проверка:
 SELECT color, COUNT(color)
@@ -112,7 +121,7 @@ plan = plpy.prepare("INSERT INTO users VALUES($1, $2, $3, $4, $5, $6)", ["INT", 
 rv = plpy.execute(plan, [id, nickname, age, sex, number_of_hours, id_device])
 $$ LANGUAGE plpython3u;
 
-CALL add_user(1000, 'Alice', 20, 'f', 1000, 234);
+CALL add_user(1004, 'Alice', 20, 'f', 1000, 234);
 
 -- create table test_str(a INT, b VARCHAR);
 -- insert into test_str VALUES (0, 'Alice');
@@ -158,7 +167,7 @@ FOR EACH ROW
 EXECUTE PROCEDURE del_users_func();
 
 DELETE FROM users_new
-WHERE nickname = 'Dougar';
+WHERE nickname = 'Colace';
 
 -- 6) Определяемый пользователем тип данных CLR.
 -- Тип содержит цвет и кол-во шлемов такого цвета.
@@ -187,7 +196,6 @@ if (rv.nrows()):
 $$ LANGUAGE plpython3u;
 
 SELECT * FROM get_color_count('white');
-
 
 -- CREATE OR REPLACE FUNCTION test(a INT, b INT)
 -- RETURNS INT AS '
