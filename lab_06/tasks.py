@@ -1,7 +1,7 @@
 from execute_task import *
 
 
-def task1(cur):
+def task1(cur, con = None):
     root_1 = Tk()
 
     root_1.title('Задание 1')
@@ -21,7 +21,7 @@ def task1(cur):
     root_1.mainloop()
 
 
-def task2(cur):
+def task2(cur, con = None):
     # Статистика по компаниям.
     # Сколько человек используют
     # шлем той или иной компании.
@@ -36,13 +36,13 @@ def task2(cur):
     create_list_box(rows, "Задание 2")
 
 
-def task3(cur):
+def task3(cur, con = None):
     # Добавить столбец с суммой кол-ва часов по группам возраста.
     cur.execute("\
     WITH new_table (id, nickname, age, sum) \
     AS \
     ( \
-        SELECT id, nickname,  age, SUM(number_of_hours) OVER(PARTITION BY age) sum \
+        SELECT id, nickname,  age, number_of_hours, SUM(number_of_hours) OVER(PARTITION BY age) sum \
         FROM users \
         ORDER BY id \
     ) \
@@ -51,7 +51,7 @@ def task3(cur):
     create_list_box(rows, "Задание 3")
 
 
-def task4(cur):
+def task4(cur, con):
 
     root_1 = Tk()
 
@@ -66,13 +66,13 @@ def task4(cur):
     name.place(x=75, y=85, width=150)
 
     b = Button(root_1, text="Выполнить",
-               command=lambda arg1=cur, arg2=name: execute_task4(arg1, arg2),  bg="thistle3")
+               command=lambda arg1=cur, arg2=name: execute_task4(arg1, arg2, con),  bg="thistle3")
     b.place(x=75, y=120, width=150)
 
     root_1.mainloop()
 
 
-def task5(cur):
+def task5(cur, con = None):
     cur.execute("SELECT get_max_number_of_hours() AS max_hours;")
 
     row = cur.fetchone()
@@ -81,7 +81,7 @@ def task5(cur):
                 message=f"Максимальное кол-во часов составляет: {row[0]}")
 
 
-def task6(cur):
+def task6(cur, con = None):
     root = Tk()
 
     root.title('Задание 1')
@@ -133,7 +133,7 @@ def task7(cur, con=None):
     root.mainloop()
 
 
-def task8(cur):
+def task8(cur, con = None):
     # Информация:
     # https://postgrespro.ru/docs/postgrespro/10/functions-info
     cur.execute(

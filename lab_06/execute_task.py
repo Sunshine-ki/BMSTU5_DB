@@ -47,12 +47,14 @@ def execute_task1(cur, age):
                 message=f"Кол-во игроков в возрасте {age} составляет: {row[0]}")
 
 
-def execute_task4(cur, table_name):
+def execute_task4(cur, table_name, con):
     table_name = table_name.get()
 
     try:
         cur.execute(f"SELECT * FROM {table_name}")
     except:
+        # Откатываемся.
+        con.rollback()
         mb.showerror(title="Ошибка", message="Такой таблицы нет!")
         return
 
@@ -70,6 +72,8 @@ def execute_task6(cur, user_id):
         mb.showerror(title="Ошибка", message="Введите число!")
         return
 
+    # get_user - Подставляемая табличная функция.
+    # Возвращает пользователя по id.
     cur.execute("SELECT * FROM get_user(%s)", (user_id,))
 
     rows = cur.fetchone()

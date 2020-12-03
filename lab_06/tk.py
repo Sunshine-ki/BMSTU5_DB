@@ -47,16 +47,12 @@ def window(cur, con):
 
     for (index, i) in enumerate(range(75, 750, 150)):
         button = Button(text="Задание " + str(index + 1), width=35, height=2,
-                        command=lambda a=index: tasks[a](cur),  bg="thistle3")
+                        command=lambda a=index: tasks[a](cur, con),  bg="thistle3")
         button.place(x=290, y=i)
 
-        if index in [1, 3, 4]:
-            button = Button(text="Задание " + str(index + 6), width=35, height=2,
-                            command=lambda a=index + 5: tasks[a](cur, con),  bg="thistle3")
-            button.place(x=610, y=i)  # anchor="center")
-        else:
-            button = Button(text="Задание " + str(index + 6), width=35, height=2,
-                            command=lambda a=index + 5: tasks[a](cur),  bg="thistle3")
-            button.place(x=610, y=i)  # anchor="center")
+        button = Button(text="Задание " + str(index + 6), width=35, height=2,
+                        command=lambda a=index + 5: tasks[a](cur, con),  bg="thistle3")
+        button.place(x=610, y=i)  # anchor="center")
+
 
     root.mainloop()
