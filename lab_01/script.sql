@@ -62,6 +62,17 @@ CREATE TABLE IF NOT EXISTS device_history
 	year_end INT CHECK(year_end >= 2000 and year_end <= 2120)
 );
 
+
+CREATE TABLE IF NOT EXISTS users_black_list
+(
+    id INT NOT NULL PRIMARY KEY,
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    world_id INT,
+    FOREIGN KEY (world_id) REFERENCES world(id)
+);
+
+
 -- copy device_history from 'lab_01/device_history.csv' delimiter ',';
 
 -- INSERT INTO world(id, name) VALUES(1001, 'Name');
