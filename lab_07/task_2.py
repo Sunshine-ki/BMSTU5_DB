@@ -2,6 +2,8 @@ from user import user
 import json
 import psycopg2
 
+from colors import * 
+
 def connection():
 	con = None
 	# Подключаемся к БД.
@@ -21,10 +23,10 @@ def connection():
 	return con
 	
 def output_json(array):
-	print()
+	print(BLUE)
 	for elem in array:
 		print(json.dumps(elem.get()))
-	print()
+	print(YELLOW)
 
 def read_table_json(cur, count = 15):
 	# Возвращает массив кортежей словарей.
@@ -42,7 +44,7 @@ def read_table_json(cur, count = 15):
 		array.append(user(tmp['id'], tmp['nickname'], tmp['age'], tmp['sex'],
 		tmp['number_of_hours'], tmp['id_device']))
 
-	print(f"{'id':<2} {'nickname':<20} age  sex number_of_hours id_device")
+	print(GREEN,f"{'id':<2} {'nickname':<20} age  sex number_of_hours id_device")
 	print(*array, sep='\n')
 	
 	return array
@@ -62,3 +64,22 @@ def add_user(users, user):
 	users.append(user)
 	output_json(users)
 
+def task_2():
+	con = connection()
+	# Объект cursor используется для фактического
+	# выполнения наших команд.
+	cur = con.cursor()
+
+	# 1. Чтение из XML/JSON документа.
+	print(GREEN, f'{"1.Чтение из XML/JSON документа:":^130}')
+	users_array = read_table_json(cur)
+	# 2. Обновление XML/JSON документа.
+	print(BLUE, f'\n{"1.Обновление XML/JSON документа:":^130}')
+	update_user(users_array, 2)
+	# 3. Запись (Добавление) в XML/JSON документ.
+	print(BLUE, f'{"1.Запись (Добавление) в XML/JSON документ:":^130}')
+	add_user(users_array, user(1111, 'Sunshine-ki', 20, 'f', 500, 123))
+
+	# Закрываем соединение с БД.
+	cur.close()
+	con.close()

@@ -3,6 +3,8 @@
 
 from py_linq import *
 
+from user import *
+from colors import *
 
 def request_1(users):
 	# Юзеры старше 50 лет отсортированные по нику.
@@ -19,8 +21,6 @@ def request_2(users):
 	# Количество изеров, старше 50.
 	result = users.count(lambda x: x['age'] >= 50)
 	
-	# print(*result, sep='\n')
-
 	return result
 
 
@@ -31,9 +31,6 @@ def request_3(users):
 	name = Enumerable([users.min(lambda x: {x['nickname'], x['number_of_hours']}), users.max(lambda x: {x['nickname'], x['number_of_hours']})])
 	# А теперь объединяем все это.
 	result = Enumerable(age).union(Enumerable(name), lambda x: x)
-
-	# for elem in request_3(users):
-		# print(elem)
 	
 	return result
 
@@ -55,3 +52,25 @@ def request_5(users):
 		print(elem)
 
 	return u_d
+
+def task_1():
+	# Создаем коллекцию.
+	users = Enumerable(create_users('data/user.csv'))
+
+	print(GREEN, '\n1.Юзеры старше 50 лет, отсортированные по нику:\n')
+	for elem in request_1(users): 
+		print(elem)
+
+	print(YELLOW, f'\n2.Количество изеров, старше 50: {str(request_2(users))}')
+
+	print(BLUE, '\n3.Некоторые характеристики:\n')
+	for elem in request_3(users): 
+		print(elem)
+
+	print(GREEN, '\n4.Группировка по полу:\n')
+	for elem in request_4(users): 
+		print(elem)
+
+	print(GREEN, '\n5.Соединяем изера и его шлем (цвет):\n')
+	for elem in request_5(users): 
+		print(elem)
