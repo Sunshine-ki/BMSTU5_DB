@@ -31,14 +31,19 @@ CREATE OR REPLACE PROCEDURE update_user
 )
 AS '
 BEGIN
-    UPDATE user_copy
+    UPDATE users
     SET id_device = in_id_device
     WHERE id=in_id;
 END;
 ' LANGUAGE plpgsql;
 
+
 -- Вызов процедуры.
-CALL update_user(1, 1);
+CALL update_user(1, 5);
+
+SELECT * FROM users ORDER BY id LIMIT 5;
+
+
 
 -- B.2. Рекурсивную хранимую процедуру или хранимую процедур с рекурсивным ОТВ.
 
