@@ -19,6 +19,10 @@ class user():
         return {'id': self.id, 'nickname': self.nickname, 'age': self.age,
                 'sex': self.sex, 'number_of_hours': self.number_of_hours, 'id_device': self.id_device}
 
+    def __str__(self):
+        return f"{self.id:<2} {self.nickname:<20} {self.age:<5} {self.sex:<5} {self.number_of_hours:<15} {self.id_device:<15}"
+
+
 
 def create_users(file_name):
     # Содает коллекцию объектов.

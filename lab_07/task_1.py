@@ -18,6 +18,8 @@ def request_2(users):
 	# Необязательным параметром является условие. 
 	# Количество изеров, старше 50.
 	result = users.count(lambda x: x['age'] >= 50)
+	
+	# print(*result, sep='\n')
 
 	return result
 
