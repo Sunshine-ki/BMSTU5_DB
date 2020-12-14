@@ -33,6 +33,8 @@ def task2(cur, con = None):
     GROUP BY company;")
 
     rows = cur.fetchall()
+    print(rows)
+
     create_list_box(rows, "Задание 2")
 
 

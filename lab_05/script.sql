@@ -1,5 +1,7 @@
 -- 1. Из таблиц базы данных, созданной в первой
 -- лабораторной работе, извлечь данные в JSON.
+
+-- Функция row_to_json - Возвращает кортеж в виде объекта JSON.
 SELECT row_to_json(u) result FROM users u;
 SELECT row_to_json(w) result FROM world w;
 SELECT row_to_json(d) result FROM device d;
@@ -30,12 +32,25 @@ COPY
 )
 TO '/home/lis/university/github/database/lab_05/users.json';
 
+-- Подготовка данных завершена.
+-- Собственно далее само задание.
+
 -- Помещаем файл в таблицу БД.
+-- Создаем таблицу, которая будет содержать json кортежи.
 CREATE TABLE IF NOT EXISTS users_import(doc json);
 
 -- Теперь копируем данные в созданную таблицу.
 -- (Но опять же делаем это с помощью \COPY).
 COPY users_import FROM '/home/lis/university/github/database/lab_05/users.json';
+
+SELECT * FROM users_import;
+
+-- В принципе можно было сделать так, но т.к. в условии написано
+-- Выгрузить из файла, так что нужно использовтаь copy.
+-- CREATE TABLE IF NOT EXISTS users_tmp(doc json);
+-- INSERT INTO users_tmp
+-- SELECT row_to_json(u) result FROM users u;
+-- SELECT * FROM users_tmp;
 
 -- Данный запрос преобразует данные из строки в формате json
 -- В табличное предстваление. Т.е. разворачивает объект из json в табличную строку.
@@ -48,6 +63,7 @@ INSERT INTO users_copy
 SELECT id, nickname, age, sex, number_of_hours, id_device
 FROM users_import, json_populate_record(null::users_copy, doc);
 
+SELECT * FROM users_copy;
 
 -- 3. Создать таблицу, в которой будет атрибут(-ы) с типом JSON, или
 -- добавить атрибут с типом JSON к уже существующей таблице.
@@ -63,6 +79,7 @@ CREATE TABLE IF NOT EXISTS blacklist_json
 SELECT * FROM blacklist_json;
 
 -- Вставляем в нее json строку.
+-- json_object - формирует объект JSON.
 INSERT INTO blacklist_json
 SELECT * FROM json_object('{user_id, word_id, reason}', '{1,2, "Красноречиво выражался"}');
 
@@ -73,6 +90,8 @@ CREATE TABLE IF NOT EXISTS users_id_name
     id INT,
     nickname VARCHAR
 );
+
+SELECT * FROM users_import, json_populate_record(null::users_id_name, doc);
 
 -- Получаем id и имена всех юзеров
 -- У кроторых nickname начинается с буквы 'A'
@@ -122,20 +141,22 @@ RETURNS VARCHAR AS '
 ' LANGUAGE sql;
 
 SELECT * FROM inventory;
+
 SELECT get_inventory('1');
 
 -- 4. Изменить XML/JSON документ
 
 INSERT INTO inventory VALUES ('{"id":3, "weapon": {"firearms":"machine gun", "hand_weapon":"none"}}');
 
+SELECT * FROM inventory;
 -- Особенность конкатенации json заключается в перезаписывании.
--- SELECT doc || '{"id": 33}'::jsonb
--- FROM inventory;
+SELECT doc || '{"id": 33}'::jsonb
+FROM inventory;
 
 -- Перезаписываем значение json поля.
 UPDATE inventory
-SET doc = doc || '{"id": 33}'::jsonb
-WHERE (doc->'id')::INT = 3;
+SET doc = doc || '{"id": 3}'::jsonb
+WHERE (doc->'id')::INT = 33;
 
 SELECT * FROM inventory;
 
