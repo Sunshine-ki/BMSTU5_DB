@@ -3,7 +3,6 @@ from task_2 import *
 from task_3 import *
 
 def main():
-	# спросить у пользователя номер задания и выполнить, то что он попросил.
 	answer = int(input(GREEN + "Номер задания: "))
 	
 	if answer == 1:
@@ -12,8 +11,6 @@ def main():
 		task_2()
 	elif answer == 3:
 		task_3()
-
-
 
 if __name__ == "__main__":
 	main()

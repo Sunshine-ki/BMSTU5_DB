@@ -7,8 +7,6 @@ from peewee import *
 
 from colors import *
 
-con = None
-
 # Подключаемся к нашей БД.
 con = PostgresqlDatabase(
 	database='postgres',
@@ -17,7 +15,6 @@ con = PostgresqlDatabase(
 	host='127.0.0.1', 
 	port=5432
 )
-
 
 
 class BaseModel(Model):
@@ -68,25 +65,17 @@ class BlackList(BaseModel):
 	class Meta:
 		table_name = 'users_black_list'
 
-
-def task_3():
-	global con 
-
-	# Можно выполнять простые запросы.
-	# cursor = con.cursor()
-	# cursor.execute("SELECT * FROM device")
-	# print(cursor.fetchall())
-	# cursor.close()
-	
+def query_1():
 	# 1. Однотабличный запрос на выборку.
+	global con 
 	user = Users.get(Users.id == 2)
-	print(BLUE, f'{"1.Однотабличный запрос на выборку:":^130}')
+	print(GREEN, f'{"1. Однотабличный запрос на выборку:":^130}')
 	print(user.id, user.nickname, user.age, user.sex, user.number_of_hours)
 
 	# Получаем набор записей.
 	query = Users.select().where(Users.age > 18).limit(5).order_by(Users.id)
 
-	print(GREEN, f'\n{"Запрос:":^130}\n', query, '\n')
+	print(BLUE, f'\n{"Запрос:":^130}\n\n', query, '\n')
 	
 	users_selected = query.dicts().execute()
 
@@ -94,8 +83,10 @@ def task_3():
 	for elem in users_selected:
 		print(elem)
 
-	# Многотабличный запрос на выборку.
-	print(BLUE, f'\n{"2.Многотабличный запрос на выборку:":^130}\n')
+def query_2():
+	# 2. Многотабличный запрос на выборку.
+	global con 
+	print(GREEN, f'\n{"2. Многотабличный запрос на выборку:":^130}\n')
 	
 	print(BLUE, f'{"Изеры и игры, в которых они заблокированы:":^130}\n')
 
@@ -120,6 +111,90 @@ def task_3():
 	# Цвет шлема, изер и миры в которых он забанен.
 	# query = Users.select(Users.id, Users.nickname, World.name, Device.color).join(BlackList).join(World).join(Device, on=(Users.id_device == Device.id)).order_by(Users.id).limit(50).where(Users.id>2)
 
+def print_last_five_users():
+	# Вывод последних 5-ти записей.
+	print(BLUE, f'\n{"Последнии 5 пользователей:":^130}\n')
+	query = Users.select().limit(5).order_by(Users.id.desc())
+	for elem in query.dicts().execute():
+		print(elem)
+	print()
 
+def add_user(new_id, new_nickname, new_age, new_sex, new_number_of_hours, new_id_device):
+	global con 
+	
+	try:
+		with con.atomic() as txn:
+			# user = Users.get(Users.id == new_id)
+			Users.create(id=new_id, nickname=new_nickname, age=new_age, sex=new_sex, number_of_hours=new_number_of_hours, id_device=new_id_device)
+			print(GREEN, "Пользователь успешно добавлен!")
+	except:
+		print(YELLOW, "Пользователь уже существует!")
+		txn.rollback()
+
+def update_nickname(user_id, new_nickname):
+	user = Users(id=user_id)
+	user.nickname = new_nickname
+	user.save()	
+	print(GREEN, "Nickname успешно обновлен!")
+
+def del_user(user_id):
+	print(GREEN, "Пользователь успешно удален удален!")
+	user = Users.get(Users.id == user_id)
+	user.delete_instance()
+
+def query_3():
+	# 3. Три запроса на добавление, изменение и удаление данных в базе данных.
+	print(GREEN, f'\n{"3. Три запроса на добавление, изменение и удаление данных в базе данных:":^130}\n')
+
+	print_last_five_users()
+
+	add_user(1020, 'Sunshine-ki', 20, 'f', 500, 123)
+	print_last_five_users()
+
+	update_nickname(1020, 'Lis')
+	print_last_five_users()
+
+	del_user(1020)	
+	print_last_five_users()
+
+def query_4():
+	# 4. Получение доступа к данным, выполняя только хранимую процедуру.
+	global con 
+	# Можно выполнять простые запросы.
+	cursor = con.cursor()
+
+	print(GREEN, f'\n{"4. Получение доступа к данным, выполняя только хранимую процедуру:":^130}\n')
+
+	# cursor.execute("SELECT * FROM users ORDER BY id DESC LIMIT 5;")
+	# for elem in cursor.fetchall():
+	# 	print(*elem)
+
+	print_last_five_users()
+
+	cursor.execute("CALL update_user(%s, %s);", (1000,55))
+	# # Фиксируем изменения.
+	# # Т.е. посылаем команду в бд.
+	# # Метод commit() помогает нам применить изменения,
+	# # которые мы внесли в базу данных,
+	# # и эти изменения не могут быть отменены,
+	# # если commit() выполнится успешно.
+	con.commit()
+
+	print_last_five_users()
+
+	cursor.execute("CALL update_user(%s, %s);", (1000,123))
+	con.commit()
+
+	cursor.close()
+	
+
+
+def task_3():
+	global con 
+
+	query_1()
+	query_2()
+	query_3()
+	query_4()
 
 	con.close()	
