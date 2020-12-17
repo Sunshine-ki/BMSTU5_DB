@@ -125,16 +125,16 @@ FROM inventory;
 -- Эта проверка определяет, входит ли один документ jsonb в другой.
 -- (https://postgrespro.ru/docs/postgresql/9.5/datatype-json#json-containment)
 
--- В данном примере проверятся существование пользователя с id=u_id.
+-- В данном примере проверятся существование инвенторя у пользователя с id=u_id.
 CREATE OR REPLACE FUNCTION get_inventory(u_id jsonb)
 RETURNS VARCHAR AS '
     SELECT CASE
-               WHEN count > 0
+               WHEN count.cnt > 0
                    THEN ''true''
                ELSE ''false''
                END AS comment
     FROM (
-             SELECT COUNT(doc -> ''id'')
+             SELECT COUNT(doc -> ''id'') cnt
              FROM inventory
              WHERE doc -> ''id'' @> u_id
          ) AS count;
@@ -155,8 +155,8 @@ FROM inventory;
 
 -- Перезаписываем значение json поля.
 UPDATE inventory
-SET doc = doc || '{"id": 3}'::jsonb
-WHERE (doc->'id')::INT = 33;
+SET doc = doc || '{"id": 33}'::jsonb
+WHERE (doc->'id')::INT = 3;
 
 SELECT * FROM inventory;
 
@@ -172,3 +172,11 @@ SELECT * FROM passed_game;
 -- jsonb_array_elements - Разворачивает массив JSON в набор значений JSON.
 SELECT jsonb_array_elements(doc::jsonb)
 FROM passed_game;
+
+-- TODO: Защита: jsonb отличается от json
+
+SELECT '[{"user_id": 0, "game_id": 1},
+  {"user_id":   2, "game_id": 2}, {"user_id": 3, "game_id": 1}]'::jsonb;
+
+SELECT '[{"user_id": 0, "game_id": 1},
+  {"user_id":    2, "game_id": 2}, {"user_id": 3, "game_id": 1}]'::json;
