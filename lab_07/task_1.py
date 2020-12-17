@@ -25,10 +25,10 @@ def request_2(users):
 
 
 def request_3(users):
-	# nickname и минимальный, максимальный возраст.
-	age = Enumerable([users.min(lambda x: {x['nickname'], x['age']}), users.max(lambda x: {x['nickname'],x['age']})])
-	# nickname и минимальное, минимальное кол-во часов в игре.
-	name = Enumerable([users.min(lambda x: {x['nickname'], x['number_of_hours']}), users.max(lambda x: {x['nickname'], x['number_of_hours']})])
+	# минимальный, максимальный возраст.
+	age = Enumerable([{users.min(lambda x: x['age']), users.max(lambda x: x['age'])}])
+	# минимальное, минимальное кол-во часов в игре.
+	name = Enumerable([{users.min(lambda x: x['number_of_hours']), users.max(lambda x: x['number_of_hours'])}])
 	# А теперь объединяем все это.
 	result = Enumerable(age).union(Enumerable(name), lambda x: x)
 	

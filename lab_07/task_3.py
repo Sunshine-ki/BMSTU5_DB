@@ -2,6 +2,9 @@
 # https://habr.com/ru/post/322086/
 # И, конечно, документации:
 # http://docs.peewee-orm.com
+# -----------------------------------
+# таблица связи между типом поля в нашей модели и в базе данных:
+# http://docs.peewee-orm.com/en/latest/peewee/models.html#field-types-table
 
 from peewee import *
 
@@ -67,7 +70,6 @@ class BlackList(BaseModel):
 
 def query_1():
 	# 1. Однотабличный запрос на выборку.
-	global con 
 	user = Users.get(Users.id == 2)
 	print(GREEN, f'{"1. Однотабличный запрос на выборку:":^130}')
 	print(user.id, user.nickname, user.age, user.sex, user.number_of_hours)
