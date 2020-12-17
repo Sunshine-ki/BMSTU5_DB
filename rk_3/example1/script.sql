@@ -2,6 +2,16 @@
 -- https://www.postgresql.org/docs/current/functions-datetime.html
 
 -- Задание 1 часть 1.
+CREATE TABLE IF NOT EXISTS employee
+(
+    id INT PRIMARY KEY,
+    name VARCHAR(32),
+    surname VARCHAR(32),
+    date_of_birth DATE,
+    department VARCHAR(64)
+);
+
+
 CREATE TABLE IF NOT EXISTS employee_visit
 (
     id INT PRIMARY KEY,
@@ -11,16 +21,6 @@ CREATE TABLE IF NOT EXISTS employee_visit
     day_of_week VARCHAR,
     employee_time TIME DEFAULT CURRENT_TIME,
     type INT CHECK (type >= 1 AND type <= 2) -- 1 - приешл, 2 - вышел
-);
-
-
-CREATE TABLE IF NOT EXISTS employee
-(
-    id INT PRIMARY KEY,
-    name VARCHAR(32),
-    surname VARCHAR(32),
-    date_of_birth DATE,
-    department VARCHAR(64)
 );
 
 
