@@ -120,9 +120,10 @@ FROM employee e;
 -- SELECT *, EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM e.date_of_birth)
 -- FROM employee e;
 
-
 -- Сотрудник, который не находится на рабочем месте 8 часов в неделю
 -- (Я сделала 9 часов, т.к. в таблице все работают как минимум 8 часов)
+
+
 SELECT AVG(age)
 FROM (
     SELECT *, (CURRENT_DATE - employee.date_of_birth) / 7 / 52 AS age   -- 7 - дней в неделе, 52 - недель в году.
