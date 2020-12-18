@@ -155,3 +155,14 @@ WHERE employee_time > '09:00:00'
 AND type = 1
 GROUP BY department;
 
+
+-- Merci ORM <3
+-- Запрос 2.
+SELECT table1.department
+FROM employee AS table1
+INNER JOIN employee_visit AS table2 ON (table2.employee_id = table1.id)
+WHERE ((table2.employee_time > '09:00:00') AND (table2.type = 1))
+GROUP BY table1."department"
+HAVING Count(table1.id) > 2
+
+
