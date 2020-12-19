@@ -30,3 +30,19 @@ $$LANGUAGE SQL;
 
 SELECT * FROM AttendanceStatistics('2020-11-15');
 
+--1 Первый запрос (SQL)
+--Найти все отделы, в которых нет сотрудников моложе 25 лет
+SELECT department
+FROM employee
+WHERE EXTRACT (YEARS FROM now()) - EXTRACT (YEARS FROM date_of_birth) > 25;
+
+--2 Второй запрос (SQL)
+--Найти сотрудника, который пришел сегодня на работу раньше всех
+SELECT id
+FROM employee_attendance
+WHERE date = '2020-11-15' AND type = 1 AND time IN (
+    SELECT MIN(time)
+    FROM employee_attendance
+    )
+
+
