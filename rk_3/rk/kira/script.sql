@@ -38,9 +38,9 @@ WHERE EXTRACT (YEARS FROM now()) - EXTRACT (YEARS FROM date_of_birth) > 25;
 
 --2 Второй запрос (SQL)
 --Найти сотрудника, который пришел сегодня на работу раньше всех
-SELECT id
-FROM employee_attendance
-WHERE date = '2020-11-15' AND type = 1 AND time IN (
+SELECT fio
+FROM employee_attendance ea JOIN employee e ON ea.employee_id = e.id
+WHERE date = current_date AND type = 1 AND time = (
     SELECT MIN(time)
     FROM employee_attendance
     )
