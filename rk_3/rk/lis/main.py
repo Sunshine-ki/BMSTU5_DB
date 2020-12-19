@@ -84,7 +84,9 @@ def task_2():
 	print("3. Найти сотрудников, опоздавших не менее 5-ти раз")
 
 	# query = Employee.select(Employee.department).join(EmployeeAttendance).where(EmployeeAttendance.e_time > '09:00:00').where(EmployeeAttendance.e_type==1).where(fn.Count(Employee.id) > 2)
-	query = Employee.select(Employee.id, Employee.fio).join(EmployeeAttendance).where(EmployeeAttendance.e_time > '09:00:00').where(EmployeeAttendance.e_type==1).group_by(Employee.id, Employee.fio)
+	# query = Employee.select(Employee.id, Employee.fio).join(EmployeeAttendance).where(EmployeeAttendance.e_time > '09:00:00').where(EmployeeAttendance.e_type==1).group_by(Employee.id, Employee.fio)
+	query = Employee.select(Employee.id, Employee.fio).join(EmployeeAttendance).where(EmployeeAttendance.e_time > '09:00:00').where(EmployeeAttendance.e_type==1).group_by(Employee.id, Employee.fio).having(fn.Count(Employee.id) > 5)
+
 	#, on=(EmployeeVisit.employee_id==Employee.id))
 	print(query) 
 	print_query(query)
