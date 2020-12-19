@@ -68,11 +68,11 @@ def task_1():
 def task_2():
 	print("1. Найти все отделы, в которых нет сотрудников моложе 25 лет")
 	tmp = datetime.now().year - Employee.date_of_birth.year
-	query = Employee.select(Employee.department).where(tmp > '25')#.where(Employee.date_of_birth.year > '2000-02-01')
+	query = Employee.select(Employee.department).where(tmp > '25')
 	print_query(query)
 
 	print("2. Найти сотрудника, который пришел сегодня на работу раньше всех")
-	query = EmployeeAttendance.select(fn.Min(EmployeeAttendance.e_time).alias('min_time'))#.join(EmployeeAttendance).group_by(EmployeeAttendance.e_time)
+	query = EmployeeAttendance.select(fn.Min(EmployeeAttendance.e_time).alias('min_time'))
 	min_time = query.dicts().execute()
 	print(min_time[0]['min_time'])
 	query = EmployeeAttendance.select(EmployeeAttendance.employee_id).where(EmployeeAttendance.e_time == min_time[0]['min_time']).limit(1)
