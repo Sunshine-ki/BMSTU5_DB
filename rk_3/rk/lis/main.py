@@ -46,16 +46,23 @@ def output(cur):
 def print_query(query):
 	for elem in query.dicts().execute():
 		print(elem)
-		# print(elem['employee_data'].isocalendar()[1] )
 
 def task_1():
 	global con
 
 	cur = con.cursor()
 
-	cur.execute(TASK_2_3)
+	cur.execute(TASK_2_1)
+	print("Сотрудники:")
 	output(cur)
 
+	cur.execute(TASK_2_2)
+	print("Сотрудник:")
+	output(cur)
+
+	cur.execute(TASK_2_3)
+	print("Опоздали:")
+	output(cur)
 
 	cur.close()
 
@@ -70,7 +77,7 @@ def task_2():
 	
 	tmp = datetime.now().year - Employee.date_of_birth.year
 	query = Employee.select(Employee.department).where(tmp > '25')#.where(Employee.date_of_birth.year > '2000-02-01')
-	# print_query(query)
+	print_query(query)
 
 	print("2. Найти сотрудника, который пришел сегодня на работу раньше всех")
 	# tmp = 

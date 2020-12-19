@@ -1,10 +1,29 @@
+TASK_2_1 = """
+SELECT department 
+FROM employee
+WHERE ((2020 - EXTRACT(year FROM date_of_birth)) > 25)
+"""
+
+TASK_2_2 = """
+SELECT id
+FROM employee_attendance
+WHERE date = '2020-11-15'
+AND type = 1
+AND time IN
+(
+    SELECT MIN(time)
+    FROM employee_attendance
+)
+LIMIT 1;
+"""
+
 TASK_2_3 = """
 SELECT e.id, e.fio 
 FROM employee AS e 
 JOIN employee_attendance AS e_a ON (e_a.employee_id = e.id) 
 WHERE ((e_a.time > '09:00:00') AND (e_a.type = 1)) 
 GROUP BY e.id, e.fio 
-HAVING (Count(e.id) > 2)
+HAVING (Count(e.id) > 2);
 """
 
 
