@@ -66,6 +66,8 @@ def task_2():
 	# tmp = 
 	# query = Employee.select(datetime.now().year - Employee.date_of_birth.year)
 	# query = Employee.select(datetime.now() - Employee.date_of_birth)
+	
+	
 	tmp = datetime.now().year - Employee.date_of_birth.year
 	query = Employee.select(Employee.department).where(tmp > '25')#.where(Employee.date_of_birth.year > '2000-02-01')
 	# print_query(query)
@@ -82,13 +84,7 @@ def task_2():
 	# print_query(query)
 
 	print("3. Найти сотрудников, опоздавших не менее 5-ти раз")
-
-	# query = Employee.select(Employee.department).join(EmployeeAttendance).where(EmployeeAttendance.e_time > '09:00:00').where(EmployeeAttendance.e_type==1).where(fn.Count(Employee.id) > 2)
-	# query = Employee.select(Employee.id, Employee.fio).join(EmployeeAttendance).where(EmployeeAttendance.e_time > '09:00:00').where(EmployeeAttendance.e_type==1).group_by(Employee.id, Employee.fio)
 	query = Employee.select(Employee.id, Employee.fio).join(EmployeeAttendance).where(EmployeeAttendance.e_time > '09:00:00').where(EmployeeAttendance.e_type==1).group_by(Employee.id, Employee.fio).having(fn.Count(Employee.id) > 5)
-
-	#, on=(EmployeeVisit.employee_id==Employee.id))
-	print(query) 
 	print_query(query)
 
 def main():
