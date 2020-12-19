@@ -3,7 +3,6 @@ from peewee import *
 from requests_sql import *
 from datetime import *
 
-# Подключаемся к нашей БД.
 con = PostgresqlDatabase(
 	database='postgres',
 	user='lis',
@@ -15,7 +14,6 @@ con = PostgresqlDatabase(
 class BaseModel(Model):
 	class Meta:
 		database = con
-
 
 class Employee(BaseModel):
 	id = IntegerField(column_name='id')
@@ -53,15 +51,15 @@ def task_1():
 	cur = con.cursor()
 
 	cur.execute(TASK_2_1)
-	print("Сотрудники:")
+	print("Задание 1:")
 	output(cur)
 
 	cur.execute(TASK_2_2)
-	print("Сотрудник:")
+	print("Задание 2:")
 	output(cur)
 
 	cur.execute(TASK_2_3)
-	print("Опоздали:")
+	print("Задание 3:")
 	output(cur)
 
 	cur.close()

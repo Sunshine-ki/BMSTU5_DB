@@ -1,13 +1,13 @@
 TASK_2_1 = """
-SELECT department 
+SELECT department
 FROM employee
-WHERE ((2020 - EXTRACT(year FROM date_of_birth)) > 25)
+WHERE ((EXTRACT(year FROM CURRENT_DATE) - EXTRACT(year FROM date_of_birth)) > 25)
 """
 
 TASK_2_2 = """
 SELECT id
 FROM employee_attendance
-WHERE date = '2020-11-15'
+WHERE date = CURRENT_DATE
 AND type = 1
 AND time IN
 (
