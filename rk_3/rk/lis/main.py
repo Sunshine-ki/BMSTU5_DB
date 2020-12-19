@@ -53,8 +53,8 @@ def task_1():
 
 	cur = con.cursor()
 
-	# cur.execute(TASK_2_1)
-	# output(cur)
+	cur.execute(TASK_2_3)
+	output(cur)
 
 
 	cur.close()
@@ -86,11 +86,11 @@ def task_2():
 	# query = Employee.select(Employee.department).join(EmployeeAttendance).where(EmployeeAttendance.e_time > '09:00:00').where(EmployeeAttendance.e_type==1).where(fn.Count(Employee.id) > 2)
 	query = Employee.select(Employee.id, Employee.fio).join(EmployeeAttendance).where(EmployeeAttendance.e_time > '09:00:00').where(EmployeeAttendance.e_type==1).group_by(Employee.id, Employee.fio)
 	#, on=(EmployeeVisit.employee_id==Employee.id))
-	# print(query) 
+	print(query) 
 	print_query(query)
 
 def main():
-	# task_1()
+	task_1()
 	task_2()
 
 if __name__ == "__main__":
