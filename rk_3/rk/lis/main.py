@@ -67,26 +67,16 @@ def task_1():
 
 def task_2():
 	print("1. Найти все отделы, в которых нет сотрудников моложе 25 лет")
-	# query = Employee.select(Employee.department).join(EmployeeAttendance).where(EmployeeAttendance.employee_time > '09:00:00').where(EmployeeAttendance.e_type==1).group_by(Employee.department).having(fn.Count(Employee.id) > 2)
-	# tmp = 
-	# query = Employee.select(datetime.now().year - Employee.date_of_birth.year)
-	# query = Employee.select(datetime.now() - Employee.date_of_birth)
-	
-	
 	tmp = datetime.now().year - Employee.date_of_birth.year
 	query = Employee.select(Employee.department).where(tmp > '25')#.where(Employee.date_of_birth.year > '2000-02-01')
 	print_query(query)
 
 	print("2. Найти сотрудника, который пришел сегодня на работу раньше всех")
-	# tmp = 
-	# sql_min = fn.Min(EmployeeAttendance.e_time)
-
-	# query = Employee.select(Employee.id, Employee.fio,EmployeeAttendance.e_time).join(EmployeeAttendance).group_by(EmployeeAttendance.e_time)
-
-
-	# query = Employee.select(Employee.id, Employee.fio,EmployeeAttendance.e_time).join(EmployeeAttendance).group_by(EmployeeAttendance.e_time)
-	# .where(EmployeeAttendance.e_type==1).where(EmployeeAttendance.e_time==sql_min)
-	# print_query(query)
+	query = EmployeeAttendance.select(fn.Min(EmployeeAttendance.e_time).alias('min_time'))#.join(EmployeeAttendance).group_by(EmployeeAttendance.e_time)
+	min_time = query.dicts().execute()
+	print(min_time[0]['min_time'])
+	query = EmployeeAttendance.select(EmployeeAttendance.employee_id).where(EmployeeAttendance.e_time == min_time[0]['min_time']).limit(1)
+	print_query(query)
 
 	print("3. Найти сотрудников, опоздавших не менее 5-ти раз")
 	query = Employee.select(Employee.id, Employee.fio).join(EmployeeAttendance).where(EmployeeAttendance.e_time > '09:00:00').where(EmployeeAttendance.e_type==1).group_by(Employee.id, Employee.fio).having(fn.Count(Employee.id) > 5)

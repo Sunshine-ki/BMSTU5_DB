@@ -5,8 +5,9 @@ WHERE ((EXTRACT(year FROM CURRENT_DATE) - EXTRACT(year FROM date_of_birth)) > 25
 """
 
 TASK_2_2 = """
-SELECT id
+SELECT employee.id, employee.fio
 FROM employee_attendance
+JOIN employee ON employee_attendance.employee_id = employee.id
 WHERE date = CURRENT_DATE
 AND type = 1
 AND time IN
