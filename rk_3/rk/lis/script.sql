@@ -37,3 +37,5 @@ $$ LANGUAGE SQL;
 
 SELECT * FROM Visit('2020-11-17');
 
+
+

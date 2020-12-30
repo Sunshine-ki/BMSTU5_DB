@@ -14,6 +14,8 @@ AND time IN
 (
     SELECT MIN(time)
     FROM employee_attendance
+    WHERE date = CURRENT_DATE
+    AND type = 1
 )
 LIMIT 1;
 """
@@ -26,5 +28,3 @@ WHERE (e_a.time > '09:00:00') AND (e_a.type = 1)
 GROUP BY e.id, e.fio 
 HAVING (Count(e.id) > 5);
 """
-
-
