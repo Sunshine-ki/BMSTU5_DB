@@ -19,6 +19,8 @@ CREATE TABLE IF NOT EXISTS employee_attendance(
     type INT CHECK (type >= 1 AND type <= 2)
 );
 
+-- Написать табличную функцию, возвращающую статистику
+-- На сколько и кто (кол-во человек) опоздал в определенную дату.
 CREATE OR REPLACE FUNCTION Visit(dt DATE)
 RETURNS TABLE
 (
@@ -34,5 +36,4 @@ $$
 $$ LANGUAGE SQL;
 
 SELECT * FROM Visit('2020-11-17');
-
 
