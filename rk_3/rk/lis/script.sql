@@ -31,7 +31,9 @@ AS
 $$
     SELECT EXTRACT (HOURS FROM time - '09:00:00') * 60 + EXTRACT (MINUTES FROM time - '09:00:00'), COUNT(*) AS employee_qty
     FROM employee_attendance
-    WHERE date = dt AND time > '09:00:00' AND type = 1
+    WHERE date = dt
+    AND time > '09:00:00'
+    AND type = 1
     GROUP BY time - '09:00:00'
 $$ LANGUAGE SQL;
 
